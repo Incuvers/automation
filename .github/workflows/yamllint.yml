@@ -1,4 +1,4 @@
-name: yaml-lint
+name: yamllint
 'on':
   pull_request:
   push:
