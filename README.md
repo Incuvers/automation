@@ -18,7 +18,7 @@ Modified: 2020-12
 ## Quickstart
 Clone and run setup to generate build artefacts:
 ```bash
-git clone --recurse-submodules https://github.com/cSDes1gn/blade-k3s
+git clone --recurse-submodules https://github.com/Incuvers/microk8s.git
 ```
 ```bash
 make setup
@@ -31,5 +31,3 @@ Prepare TuringPi board for slave port flashing as per [instructions](#turingpi-s
 ```bash
 make flash
 ```
-
-
