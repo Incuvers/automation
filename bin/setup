@@ -10,7 +10,7 @@ build_usbboot(){
   git submodule update --init --recursive
   echo "Syncing with upstream usbboot"
   git submodule update --remote
-  cd usbboot || exit 1
+  cd usbboot
   make
 }
 
@@ -19,8 +19,8 @@ xargs brew install < dependencies.txt
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 printf "%b" "${OKB}Preparing usbboot submodule ...${NC}\n"
-build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" ||
-  printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1;
+build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
+  (printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1)
 
 printf "%b" "${OKB}Preparing img build ...${NC}\n"
 mkdir build
@@ -33,5 +33,6 @@ curl -L  "${IMG}" --output build/"$NAME".xz
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 echo "Extracting Ubuntu img ..."
-build
+build  && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
+  (printf "%b" "${FAIL} ✗ ${NC} Failed to extract ubuntu image.\n" && exit 1)
 printf "%b" "${OKG} ✓ ${NC} complete\n"
