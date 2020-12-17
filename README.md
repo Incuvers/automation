@@ -1,15 +1,17 @@
 # Automation for TuringPi K3S Blade Cluster using HypriotOS
-[![Actions Status](https://github.com/cSDes1gn/blade-k3s/workflows/yaml-lint/badge.svg)](https://github.com/cSDes1gn/blade-k3s/actions) [![Actions Status](https://github.com/cSDes1gn/blade-k3s/workflows/shellcheck/badge.svg)](https://github.com/cSDes1gn/blade-k3s/actions)
+[![Actions Status](https://github.com/Incuvers/microk8s/workflows/yamllint/badge.svg)](https://github.com/Incuvers/microk8s/actions?query=workflow%3Ayamllint) [![Actions Status](https://github.com/Incuvers/microk8s/workflows/shellcheck/badge.svg)](https://github.com/Incuvers/microk8s/actions?query=workflow%3Ashellcheck)
 
 ![img](docs/img/tp.jpeg) ![img](docs/img/logo_tr.png)![img](docs/img/k3s.png) 
 
 Modified: 2020-10
 
 ## Navigation
-1. [Automating Cluster Setup](#automating-cluster-setup)
-2. [TuringPi Setup](#turingpi-setup)
-3. [Quickstart](#quickstart)
-4. [License](#license)
+- [Automation for TuringPi K3S Blade Cluster using HypriotOS](#automation-for-turingpi-k3s-blade-cluster-using-hypriotos)
+  - [Navigation](#navigation)
+  - [Automating Cluster Setup](#automating-cluster-setup)
+  - [TuringPi Setup](#turingpi-setup)
+  - [Quickstart](#quickstart)
+  - [License](#license)
 
 ## Automating Cluster Setup
 
