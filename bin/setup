@@ -1,38 +1,30 @@
 #!/bin/bash
 
 build(){
-  cd "$BUILD" || exit
-  tar -xvf "$NAME".xz
-  cd - || exit
+  cd "$BUILD"
+  tar -xvf "$NAME"
+  cd -
 }
 
 build_usbboot(){
   git submodule update --init --recursive
   echo "Syncing with upstream usbboot"
   git submodule update --remote
-  cd usbboot
-  make
+  cd usbboot && make && cd -
 }
 
 printf "%b" "${OKB}Installing homebrew dependancies ...${NC}\n"
-xargs brew install < dependencies.txt
+# xargs brew install < dependencies.txt
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 printf "%b" "${OKB}Preparing usbboot submodule ...${NC}\n"
 build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
   (printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1)
 
-printf "%b" "${OKB}Preparing img build ...${NC}\n"
-mkdir build
-build_path="$(cd build || exit 1; pwd -P)"
-export BUILD="$build_path"
-printf "%b" "${OKG} ✓ ${NC} complete\n"
-
 printf "%b" "${OKB}Fetching latest Ubuntu 20.04 release for CM3+${NC}\n"
-curl -L  "${IMG}" --output build/"$NAME".xz
+curl -L "$IMG" --output build/"$NAME"
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 echo "Extracting Ubuntu img ..."
-build  && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
+build && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
   (printf "%b" "${FAIL} ✗ ${NC} Failed to extract ubuntu image.\n" && exit 1)
-printf "%b" "${OKG} ✓ ${NC} complete\n"
