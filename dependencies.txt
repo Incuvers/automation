@@ -1,0 +1,8 @@
+pv
+libusb
+lsusb
+ansible
+kubectl
+watch
+jq
+python@3.8
