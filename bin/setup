@@ -10,23 +10,23 @@ build_usbboot(){
   git submodule update --init --recursive
   echo "Syncing with upstream usbboot"
   git submodule update --remote
-  cd usbboot
+  cd usbboot || exit 1
   make
 }
 
-printf "%b" "${OKB}Installing homebrew dependancies ...${}"
+printf "%b" "${OKB}Installing homebrew dependancies ...${NC}\n"
 xargs brew install < dependencies.txt
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
-printf "${OKB}Preparing usbboot submodule ...${NC}"
+printf "%b" "${OKB}Preparing usbboot submodule ...${NC}\n"
 build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" ||
   printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1;
 
-echo "Preparing build ..."
+printf "%b" "${OKB}Preparing img build ...${NC}\n"
 mkdir build
 build_path="$(cd build || exit 1; pwd -P)"
 export BUILD="$build_path"
-printf "${OKG} ✓ ${NC} complete"
+printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 printf "%b" "${OKB}Fetching latest Ubuntu 20.04 release for CM3+${NC}\n"
 curl -L  "${IMG}" --output build/"$NAME".xz
