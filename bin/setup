@@ -1,9 +1,7 @@
 #!/bin/bash
 
 build(){
-  cd "$BUILD"
-  tar -xvf "$NAME"
-  cd -
+  cd build && unxz --keep "$NAME" && cd -
 }
 
 build_usbboot(){
@@ -21,6 +19,7 @@ printf "%b" "${OKB}Preparing usbboot submodule ...${NC}\n"
 build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
   (printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1)
 
+mkdir build
 printf "%b" "${OKB}Fetching latest Ubuntu 20.04 release for CM3+${NC}\n"
 curl -L "$IMG" --output build/"$NAME"
 printf "%b" "${OKG} ✓ ${NC} complete\n"
