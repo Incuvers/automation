@@ -40,16 +40,4 @@ printf "%b" "${OKG} ✓ ${NC} complete"
 flash && printf "%b" "${OKG} ✓ ${NC} complete\n") || 
 	printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1;
 
-
-
-echo "Configuring user data template ... "
-python src/yaml_parser.py "./src/templates/$yaml"
-echo -e "${OKG} ✓ ${NC} complete"
-cfg_path='/Volumes/HypriotOS/user-data'
-echo "Copying to $cfg_path ... "
-cp "$BUILD/user-data" "$cfg_path"
-echo -e "${OKG} ✓ ${NC} complete"
-
-diskutil unmountDisk "$disk"
-
 printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service"
