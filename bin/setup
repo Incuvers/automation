@@ -36,6 +36,6 @@ printf "${OKB}Fetching latest Ubuntu 20.04 release for CM3+ ...${NC}\n"
 curl -L  "${IMG}" --output build/"$NAME".xz
 printf "${OKG} ✓ ${NC} complete"
 
-echo "Extracting HypriotOS img ..."
+echo "Extracting Ubuntu img ..."
 build
 printf "${OKG} ✓ ${NC} complete"
