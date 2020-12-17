@@ -1,0 +1,5 @@
+#!/bin/bash
+
+printf "%b" "Configuring ssh key authorization with your machine to connected node"
+
+PUB_SSH=$(< ~/.ssh/id_rsa.pub)
