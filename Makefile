@@ -1,13 +1,17 @@
+# Source user env flags
+include .env
+export $(shell sed 's/=.*//' .env)
+
 .PHONY: all
 all : setup flash
 
 .PHONY: setup
-setup: ## install packages, init and sync submodules, fetch and extract latest hypriotOS img
+setup: ## install packages, init and sync submodules, fetch and extract Ubuntu 20.04 img for CM3+
 	./bin/setup
 
 .PHONY: flash
-flash: ## flash compute module eMMC with latest hypriotOS img
-	./bin/flash_emmc
+flash: ## flash compute module eMMC with ubuntu 20.04
+	./bin/flash-emmc
 
 .PHONY: clean
 flash: ## clean build artifacts
