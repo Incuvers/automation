@@ -7,17 +7,16 @@ usbboot(){
     echo "Insert compute module into master SO-DIMM"
     sudo ./rpiboot -v
     cd ..
-    printf "%b" "${OKG} ✓ ${NC} complete\n"
 }
 
 flash(){
     diskutil list
     read -rp 'Specify disk write location (ie /dev/disk2): ' disk
-    echo "Unmounting $disk ..."
+    printf "%b" "Unmounting${OKG} $disk ${NC}...\n"
     diskutil unmountDisk "$disk"
-    printf "%b" "${OKG} ✓ ${NC} complete"
+    printf "%b" "${OKG} ✓ ${NC} complete\n"
     cd build
-    img=$(echo -- *'.img'*)
+    img="ubuntu-20.04-cm3.img"
     printf "%b" "${OKB}Flashing $img to $disk ...${NC}\n"
     pv "$img" | sudo dd bs=1m of="$disk"
     printf "%b" "${OKG} ✓ ${NC} complete\n"
@@ -33,11 +32,11 @@ read -rp "Press any key to continue ..."
 
 printf "%b" "${OKB}Starting eMMC Flashing Service ${NC}\n"
 usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-	printf "%b" "${FAIL} ✗ ${NC} usbboot sequence failed.\n" && exit 1;
+	( printf "%b" "${FAIL} ✗ ${NC} usbboot sequence failed.\n" && exit 1 )
 
 sleep 2
 
 flash && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-	printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1;
+	( printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1 )
 
 printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service"
