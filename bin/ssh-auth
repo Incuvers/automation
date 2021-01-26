@@ -3,3 +3,5 @@
 printf "%b" "Configuring ssh key authorization with your machine to connected node"
 
 PUB_SSH=$(< ~/.ssh/id_rsa.pub)
+ssh-copy-id username@remote_host
+cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && cat >> ~/.ssh/authorized_keys"
