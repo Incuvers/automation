@@ -2,5 +2,4 @@ pv
 libusb
 lsusb
 kubectl
-watch
 python@3.8
