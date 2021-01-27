@@ -1,4 +1,0 @@
-rpiboot usr/bin
-msd/*.elf usr/share/rpiboot/msd/
-msd/*.bin usr/share/rpiboot/msd/
-debian/99-rpiboot.rules /lib/udev/rules.d
