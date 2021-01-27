@@ -7,7 +7,7 @@ all : setup flash
 
 .PHONY: setup
 setup: ## install packages, init and sync submodules, fetch and extract Ubuntu 20.04 img for CM3+
-	@./bin/setup
+	@./scripts/setup
 
 .PHONY: key-auth
 key-auth: ## authorize new ssh key for master node
@@ -15,7 +15,7 @@ key-auth: ## authorize new ssh key for master node
 
 .PHONY: flash
 flash: ## flash compute module eMMC with ubuntu 20.04
-	@./bin/flash-emmc
+	@./scripts/flash-emmc
 
 .PHONY: clean
 clean: ## clean build artifacts
