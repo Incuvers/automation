@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 build(){
   cd build && unxz --keep "$NAME" && cd -
 }
