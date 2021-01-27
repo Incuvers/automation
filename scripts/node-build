@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+printf "%b" "${OKB}Boot config setup${NC}\n"
+# copy usercfg to /boot/firmware for screen orientation (portait mode on 1920x1080 monitors)
+sudo cp firmware/usercfg.txt /boot/firmware/.
+printf "%b" "${OKG} ✓ ${NC} complete\n"
+
+# install node apt packages
+printf "%b" "${OKB}Installing node dependancies${NC}\n"
+sudo apt update
+sudo apt upgrade
+xargs -a node-dependancies.txt sudo apt install -y
+printf "%b" "${OKG} ✓ ${NC} complete\n"
+

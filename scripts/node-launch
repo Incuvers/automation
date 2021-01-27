@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+read -rp 'Node IP address (ie 192.168.2.67): ' address
+
+printf "%b" "${OKB}Executing node build job @ ${OKG}$address${OKB}...${NC}\n"
+ssh -t ubuntu@$address "git clone https://github.com/Incuvers/microk8s.git && cd microk8s && make node-build"
