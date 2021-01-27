@@ -21,6 +21,14 @@ flash: ## flash compute module eMMC with ubuntu 20.04
 clean: ## clean build artifacts
 	@rm -rv build
 
+.PHONY: node
+node: ## start node build
+	@./scripts/node-launch
+
+.PHONY: node-build
+node-build: ## build node environment
+	@./scripts/node-build
+
 .PHONY: help	
 help:
 	@echo Usage:
