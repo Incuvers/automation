@@ -42,3 +42,4 @@ flash && printf "%b" "${OKG} ✓ ${NC} complete\n" ||
 	( printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1 )
 
 printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service"
+echo "Please remove the compute module from the SO-DIMM slot and reinsert it to start boot process"
