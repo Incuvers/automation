@@ -10,7 +10,7 @@ setup: ## install packages, init and sync submodules, fetch and extract Ubuntu 2
 	@./bin/setup
 
 .PHONY: key-auth
-setup: ## authorize new ssh key for master node
+key-auth: ## authorize new ssh key for master node
 	@./scripts/ssh-auth
 
 .PHONY: flash
