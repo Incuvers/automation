@@ -1,0 +1,2 @@
+avahi-utils
+build-essential

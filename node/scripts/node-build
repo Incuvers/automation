@@ -13,3 +13,5 @@ sudo apt upgrade
 xargs -a node-dependancies.txt sudo apt install -y
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
+# hostname setup
+printf "%b" "${OKB}Setting hostname${NC}\n"
