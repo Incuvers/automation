@@ -19,6 +19,8 @@ flash(){
     img="ubuntu-20.04-cm3.img"
     printf "%b" "${OKB}Flashing $img to $disk ...${NC}\n"
     pv "$img" | sudo dd bs=1m of="$disk"
+    printf "%b" "${OKB}Ejecting $disk ...${NC}\n"
+    diskutil eject "$disk"
     printf "%b" "${OKG} ✓ ${NC} complete\n"
     cd -
 }
