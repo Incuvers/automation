@@ -8,10 +8,14 @@ printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 # install node apt packages
 printf "%b" "${OKB}Installing node dependancies${NC}\n"
-sudo apt update
-sudo apt upgrade
+sudo apt update -y
+sudo apt upgrade -y
 xargs -a node-dependancies.txt sudo apt install -y
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 # hostname setup
 printf "%b" "${OKB}Setting hostname${NC}\n"
+read -rp "Setup a hostname: " hostname
+sudo hostnamectl set-hostname $hostname
+sudo avahi-set-host-name $hostname
+printf "%b" "${OKG} ✓ ${NC} complete\n"
