@@ -1,0 +1,4 @@
+#!/bin/bash
+printf "%b" "${OKB}Configuring ssh key authorization with your machine to ${OKG}$MASTER_NAME${OKB}@${OKG}$MASTER_HOSTNAME${NC}\n"
+PUB_SSH=$(< ~/.ssh/id_rsa.pub)
+echo $PUB_SSH | ssh -T $MASTER_NAME@$MASTER_HOSTNAME.local "mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && cat >> ~/.ssh/authorized_keys"
