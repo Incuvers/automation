@@ -31,3 +31,11 @@ Prepare TuringPi board for slave port flashing as per [instructions](#turingpi-s
 ```bash
 make flash
 ```
+
+## Accessing the Server
+In order to access the server you must copy your local machines `id_rsa.pub` to the set of authorized keys on the master node. Contact christian@incuvers.com for assistance. Password login is disabled through ssh connections for security purposes.
+
+Accessing the master node on LAN is done by:
+```
+ssh incuvers-tp@master.local
+```
