@@ -36,6 +36,12 @@ make flash
 In order to access the server you must copy your local machines `id_rsa.pub` to the set of authorized keys on the master node. Contact christian@incuvers.com for assistance. Password login is disabled through ssh connections for security purposes.
 
 Accessing the master node on LAN is done by:
-```
+```bash
 ssh incuvers-tp@master.local
+```
+
+Subsequent slave nodes are accessed (X: [1-6]):
+```bash
+ssh incuvers-tp@slaveX.local
+...
 ```
