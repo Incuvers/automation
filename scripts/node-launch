@@ -14,4 +14,4 @@ echo $PUB_SSH | ssh -T $node_name@$node_address "mkdir -p ~/.ssh && touch ~/.ssh
 
 printf "%b" "${OKB}Executing node build job @ ${OKG}$node_address${OKB}...${NC}\n"
 rsync -a node $node_name@$node_address:~/.
-ssh -t $node_name@$node_address "cd node && sudo apt install -y build-essential && make node-build"
+ssh -t $node_name@$node_address "cd node && sudo apt update -y && ./scripts/node-build"
