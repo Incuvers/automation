@@ -1,5 +1,10 @@
 #!/bin/bash
-
+OKG="\033[92m"
+WARN="\033[93m"
+FAIL="\033[91m"
+OKB="\033[94m"
+UDL="\033[4m"
+NC="\033[0m"
 set -e
 printf "%b" "${OKB}Boot config setup${NC}\n"
 # copy usercfg to /boot/firmware for screen orientation (portait mode on 1920x1080 monitors)
@@ -19,3 +24,6 @@ read -rp "Setup a hostname: " hostname
 sudo hostnamectl set-hostname $hostname
 sudo avahi-set-host-name $hostname
 printf "%b" "${OKG} ✓ ${NC} complete\n"
+
+# proceeding message
+printf "%b" "${OKB}Your node ${OKG}$LOGNAME@$hostname${OKB} is ready! Try opening an ssh connection. ${NC}\n"
