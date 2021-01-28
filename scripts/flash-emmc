@@ -12,12 +12,12 @@ usbboot(){
 flash(){
     diskutil list
     read -rp 'Specify disk write location (ie /dev/disk2): ' disk
-    printf "%b" "Unmounting${OKG} $disk ${NC}...\n"
+    printf "%b" "${OKB}Unmounting${OKG} $disk ${NC}...\n"
     diskutil unmountDisk "$disk"
     printf "%b" "${OKG} ✓ ${NC} complete\n"
     cd build
     img="ubuntu-20.04-cm3.img"
-    printf "%b" "${OKB}Flashing $img to $disk ...${NC}\n"
+    printf "%b" "${OKB}Flashing ${OKG}$img${OKB} to ${OKG}$disk${OKB} ...${NC}\n"
     pv "$img" | sudo dd bs=1m of="$disk"
     printf "%b" "${OKB}Ejecting $disk ...${NC}\n"
     diskutil eject "$disk"
@@ -41,5 +41,5 @@ sleep 2
 flash && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
 	( printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1 )
 
-printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service"
-echo "Please remove the compute module from the SO-DIMM slot and reinsert it to start boot process"
+printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service\n"
+echo "Please remove the compute module from the SO-DIMM slot, disconnect the usb flash cable and reinsert it to start boot process"
