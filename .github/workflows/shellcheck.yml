@@ -1,3 +1,4 @@
+---
 name: shellcheck
 'on':
   pull_request:
