@@ -19,17 +19,20 @@ Modified: 2020-12
 Clone and run setup to generate build artefacts:
 ```bash
 git clone --recurse-submodules https://github.com/Incuvers/microk8s.git
-```
-```bash
+...
 make setup
 ```
-This will create a `build` directory build artefacts. To remove the build directory after flashing nodes and perform other cleanup:
+This will create a `build` directory for build artefacts. To remove the build directory after flashing nodes and perform other cleanup:
 ```bash
 make clean
 ```
-Prepare TuringPi board for slave port flashing as per [instructions](#turingpi-setup) then run following the prompts:
+Prepare TuringPi board for slave port flashing as per [instructions](#automated-cluster-setup) then run:
 ```bash
 make flash
+```
+Follow the prompts and then execute the node build setup using:
+```bash
+make node
 ```
 
 ## Accessing the Server
