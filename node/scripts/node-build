@@ -1,9 +1,6 @@
 #!/bin/bash
 OKG="\033[92m"
-WARN="\033[93m"
-FAIL="\033[91m"
 OKB="\033[94m"
-UDL="\033[4m"
 NC="\033[0m"
 set -e
 printf "%b" "${OKB}Boot config setup${NC}\n"
@@ -21,15 +18,15 @@ printf "%b" "${OKG} ✓ ${NC} complete\n"
 # hostname setup
 printf "%b" "${OKB}Setting hostname${NC}\n"
 read -rp "Setup a hostname: " hostname
-sudo hostnamectl set-hostname $hostname
-sudo avahi-set-host-name $hostname
+sudo hostnamectl set-hostname "$hostname"
+sudo avahi-set-host-name "$hostname"
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 # disable wlan interfaces
 sudo systemctl disable wpa_supplicant
 
 # setup microk8s
-sudo snap install microk8s --classic
+sudo snap install microk8s --classic --channel=1.17/stable
 sudo usermod -aG microk8s incuvers-tp
 sudo chown -fR incuvers-tp ~/.kube
 # need to logout and log back in for user group updates to take effect
