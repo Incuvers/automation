@@ -18,8 +18,13 @@ printf "%b" "${OKB}Installing homebrew dependancies ...${NC}\n"
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 printf "%b" "${OKB}Preparing usbboot submodule ...${NC}\n"
-build_usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-  (printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n" && exit 1)
+
+if build_usbboot ; then
+    printf "%b" "${OKG} ✓ ${NC} complete\n"
+else
+    printf "%b" "${FAIL} ✗ ${NC} usbboot build failed.\n"
+    exit 1
+fi
 
 mkdir build
 printf "%b" "${OKB}Fetching latest Ubuntu 20.04 release for CM3+${NC}\n"
@@ -27,5 +32,9 @@ curl -L "$IMG" --output build/"$NAME"
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 echo "Extracting Ubuntu img ..."
-build && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-  (printf "%b" "${FAIL} ✗ ${NC} Failed to extract ubuntu image.\n" && exit 1)
+if build ; then
+    printf "%b" "${OKG} ✓ ${NC} complete\n"
+else
+    printf "%b" "${FAIL} ✗ ${NC} Failed to extract ubuntu image.\n"
+    exit 1
+fi

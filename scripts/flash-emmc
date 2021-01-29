@@ -33,13 +33,21 @@ echo " 3. This local machine is connected to the slave micro usb flash port"
 read -rp "Press any key to continue ..."
 
 printf "%b" "${OKB}Starting eMMC Flashing Service ${NC}\n"
-usbboot && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-	( printf "%b" "${FAIL} ✗ ${NC} usbboot sequence failed.\n" && exit 1 )
+if usbboot ; then
+    printf "%b" "${OKG} ✓ ${NC} complete\n"
+else
+    printf "%b" "${FAIL} ✗ ${NC} usbboot sequence failed.\n"
+    exit 1
+fi
 
 sleep 2
 
-flash && printf "%b" "${OKG} ✓ ${NC} complete\n" || 
-	( printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n" && exit 1 )
+if flash ; then
+    printf "%b" "${OKG} ✓ ${NC} complete\n"
+else
+    printf "%b" "${FAIL} ✗ ${NC} emmc flash failed.\n"
+    exit 1
+fi
 
 printf "%b" "${OKG} ✓ ${NC} Completed eMMC Flashing Service\n"
 echo "Please remove the compute module from the SO-DIMM slot, disconnect the usb flash cable and reinsert it to start boot process"
