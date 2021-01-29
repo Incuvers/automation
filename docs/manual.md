@@ -99,3 +99,9 @@ In order to make the compute module discoverable to your computer the TuringPi m
 Bus 020 Device 000: ID 0a5c:2764 Broadcom Corp. BCM2710 Boot
 ...
 ```
+
+
+## Notes:
+```
+systemd-analyze blame
+```

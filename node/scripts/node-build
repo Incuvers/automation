@@ -8,7 +8,7 @@ NC="\033[0m"
 set -e
 printf "%b" "${OKB}Boot config setup${NC}\n"
 # copy usercfg to /boot/firmware for screen orientation (portait mode on 1920x1080 monitors)
-sudo cp firmware/usercfg.txt /boot/firmware/.
+sudo cp firmware/* /boot/firmware/.
 printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 # install node apt packages

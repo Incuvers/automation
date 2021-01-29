@@ -17,3 +17,17 @@ sudo usermod -aG microk8s incuvers-tp
 sudo chown -fR incuvers-tp ~/.kube
 ```
 
+From the master node add all slave nodes:
+```bash
+microk8s add-node
+...
+From the node you wish to join to this cluster, run the following:
+microk8s join 192.168.2.51:25000/ffb035fd4ffc68aa6fa4aed272344098
+
+If the node you are adding is not reachable through the default interface you can use one of the following:
+microk8s join 192.168.2.51:25000/ffb035fd4ffc68aa6fa4aed272344098
+```
+The add-node command prints a microk8s join command which should be executed on the MicroK8s instance that you wish to join to the cluster (NOT THE NODE YOU RAN add-node FROM). Run the displayed join command on the slave node you want to connect to the master:
+```
+microk8s join 192.168.2.51:25000/ffb035fd4ffc68aa6fa4aed272344098
+```
