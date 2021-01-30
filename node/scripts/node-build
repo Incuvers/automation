@@ -31,5 +31,7 @@ sudo usermod -aG microk8s incuvers-tp
 sudo chown -fR incuvers-tp ~/.kube
 # need to logout and log back in for user group updates to take effect
 
+sudo ufw default allow routed
+
 # proceeding message
 printf "%b" "${OKB}Your node ${OKG}$LOGNAME@$hostname${OKB} is ready! Try opening an ssh connection. ${NC}\n"

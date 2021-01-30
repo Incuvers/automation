@@ -31,3 +31,8 @@ The add-node command prints a microk8s join command which should be executed on 
 ```
 microk8s join 192.168.2.51:25000/ffb035fd4ffc68aa6fa4aed272344098
 ```
+
+```bash
+microk8s kubectl describe nodes
+
+```
