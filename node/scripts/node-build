@@ -2,7 +2,7 @@
 OKG="\033[92m"
 OKB="\033[94m"
 NC="\033[0m"
-set -e
+
 printf "%b" "${OKB}Boot config setup${NC}\n"
 # copy usercfg to /boot/firmware for screen orientation (portait mode on 1920x1080 monitors)
 sudo cp firmware/* /boot/firmware/.
@@ -24,13 +24,7 @@ printf "%b" "${OKG} ✓ ${NC} complete\n"
 
 # disable wlan interfaces
 sudo systemctl disable wpa_supplicant
-
-# setup microk8s
-sudo snap install microk8s --classic --channel=1.17/stable
-sudo usermod -aG microk8s incuvers-tp
-sudo chown -fR incuvers-tp ~/.kube
-# need to logout and log back in for user group updates to take effect
-
+# allow routed connections through firewall
 sudo ufw default allow routed
 
 # proceeding message
