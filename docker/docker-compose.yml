@@ -1,0 +1,97 @@
+---
+version: '3.7'
+
+services:
+  # test:
+  #   image: snapcore/snapcraft
+  #   command: snapcraft
+  #   volumes:
+  #     - "../:/build"
+  #   networks:
+  #     - dev
+  # snap20:
+  #   build: ./_snap20
+  #   working_dir: /build
+  #   command: snapcraft
+  #   volumes:
+  #     - "../:/build"
+  #   environment:
+  #     - SNAP_ARCH=arm64
+  #     - ARCH=arm64
+  #     - SNAPCRAFT_BUILD_ENVIRONMENT=host
+  #   env_file:
+  #     - env/default.env
+  #   networks:
+  #     - dev
+  # snap18:
+  #   build: ./_snap18
+  #   working_dir: /build
+  #   command: snapcraft
+  #   volumes:
+  #     - "../:/build"
+  #   environment:
+  #     - SNAP_ARCH=arm64
+  #     - ARCH=arm64
+  #     - SNAPCRAFT_BUILD_ENVIRONMENT=host
+  #   env_file:
+  #     - env/default.env
+  #   networks:
+  #     - dev
+  snap:
+    build: ./_snap
+    working_dir: /build
+    container_name: iris-incuvers
+    command: snapcraft
+    environment:
+      - SNAPCRAFT_BUILD_ENVIRONMENT=host
+    volumes:
+      - "../:/build"
+      # - run:/run
+      # - run_lock:/run/lock
+      # - tmp:/tmp
+      # - cgroup:/sys/fs/cgroup
+      # - modules:/lib/modules
+    # security_opt:
+    #   - apparmor:unconfined
+    #   - seccomp:unconfined
+    # cap_add:
+    #   - SYS_ADMIN
+    env_file:
+      - env/default.env
+    networks:
+      - dev
+# raspi:
+#   build: ./_raspi
+#   # ports:
+#   #   - "5005:5000"
+#   environment:
+#     - SNAP_ARCH=arm64
+#     - SNAPCRAFT_BUILD_ENVIRONMENT=host
+#   volumes:
+#     - "../app/:/app"
+#     - "../docker/:/app/docker/"
+#   env_file:
+#     - env/default.env
+#   networks:
+#     - dev
+volumes:
+  run:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  run_lock:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  tmp:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  cgroup:
+  modules:
+
+networks:
+  # Define the dev network for containers to communicate
+  dev:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME}_dev
