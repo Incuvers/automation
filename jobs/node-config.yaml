@@ -1,3 +1,0 @@
----
-- name: Configure Server Nodes
-  hosts: all

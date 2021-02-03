@@ -1,0 +1,34 @@
+---
+- name: Configure Server Nodes
+  hosts: all
+  become: true
+  tasks:
+    - name: Install node dependancies
+      apt:
+        update_cache: true
+        name: 
+          - avahi-utils
+          - build-essential
+          - net-tools
+        state: present
+    
+    - name: Copy configuration files 
+      copy: 
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        # if the source files exist in a directory called files/ relative to the playbook it looks 
+        # for them there
+        - src: cmdline.txt
+          dest: /boot/firmware/cmdline.txt
+        - src: usercfg.txt
+          dest: /boot/firmware/usercfg.txt
+    
+    - name: Disable wpa supplicant service
+      service:
+        name: wpa_supplicant
+        state: stopped
+        enabled: false
