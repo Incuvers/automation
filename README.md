@@ -1,11 +1,11 @@
-# Incuvers MicroK8s Cluster Control
+# Incuvers MicroK3s Cluster Control
 [![Actions Status](https://github.com/Incuvers/microk8s/workflows/yamllint/badge.svg)](https://github.com/Incuvers/microk8s/actions?query=workflow%3Ayamllint) [![Actions Status](https://github.com/Incuvers/microk8s/workflows/shellcheck/badge.svg)](https://github.com/Incuvers/microk8s/actions?query=workflow%3Ashellcheck)
 
 ![img](/docs/img/Incuvers-black.png)
 
 Modified: 2020-12
 
-- [Incuvers MicroK8s Cluster Control](#incuvers-microk8s-cluster-control)
+- [Incuvers MicroK3s Cluster Control](#incuvers-microk8s-cluster-control)
   - [Automating Cluster Setup](#automating-cluster-setup)
   - [Quickstart](#quickstart)
 
