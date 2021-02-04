@@ -6,6 +6,14 @@
   vars_files:
     - vars.yaml
 
+  handlers:
+    # confirm sshd is running after restart
+    - name: sshd restart
+      service:
+        name: sshd
+        state: started
+        enabled: true
+
   pre_tasks:
     - name: Update apt cache
       apt:
@@ -50,3 +58,15 @@
     - name: Configure hostnames
       hostname:
         name: "{{ hostname }}"
+
+    - name: Revoke ssh password auth
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: '^(PasswordAuthentication[ ]+)[^\n]+$'
+        replace: '\g<1>no'
+
+    - name: Restart sshd
+      service:
+        name: sshd
+        state: restarted
+      notify: sshd restart
