@@ -34,6 +34,10 @@ This will create a `build` directory for build artefacts. To view available make
 ```bash
 make
 ```
+Configure yourself as the system administrator for each node (allow ssh access):
+```bash
+make ssh-auth
+```
 ## Flash Compute Modules
 This server is designed to work with Ubuntu Server 20.04.1 LTS 64 bit images for the RPi 3. Follow the instructions below to begin flashing the compute modules:
 1. Set the first jumper closest to the micro-usb slave programmer port so that it is on the pin with the small triangle indicator. This sets the pinstate to eMMC flash mode. 
@@ -44,7 +48,10 @@ This server is designed to work with Ubuntu Server 20.04.1 LTS 64 bit images for
 6. Power off the motherboard
 7. Repeat from step 3 for all compute modules
 
+## User Management
+Each node on the server has a customized `incuvers-tp` user which is part of the `sudo` user group. This is done after each node is flashed but before the server nodes have been configured. There is no automation for this process so the admin must ssh into each node and setup the users. Steps for this process are outlined in the [User Management](/docs/users.md) document.
+
 ## Accessing the Server
-Password login is disabled through ssh connections for security purposes. In order to access the server you must copy your local machines `id_rsa.pub` to the set of authorized keys on the desired access nodes. This is automated in the setup process (`make node` target) using the setup users' RSA public key. Therefore whoever sets up the server becomes the system administrator. If the server is already setup and you require access contact christian@incuvers.com (current sys admin) for assistance.
+Password login is disabled through ssh connections for security purposes. In order to access the server you must copy your local machines `id_rsa.pub` to the set of authorized keys on the desired access nodes. This is automated in the setup process (`make ssh-auth` target) using the setup users' RSA public key. Therefore whoever sets up the server becomes the system administrator. If the server is already setup and you require access contact christian@incuvers.com (current sys admin) for assistance.
 
 Using ssh and adhoc shell scripts to manage server nodes is strongly discouraged. For server maintenance and configuration we use the cluster management tool *Ansible*
