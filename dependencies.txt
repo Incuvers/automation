@@ -2,4 +2,5 @@ pv
 libusb
 lsusb
 kubectl
+ansible
 python@3.8
