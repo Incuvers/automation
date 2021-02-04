@@ -8,7 +8,6 @@
         update_cache: true
         name: 
           - avahi-utils
-          - build-essential
           - net-tools
         state: present
     
@@ -38,3 +37,7 @@
         direction: routed
         default: allow
         route: true
+      
+    - name: Configure hostnames
+      hostname:
+        name: "{{ hostname }}"
