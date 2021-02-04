@@ -1,4 +1,0 @@
-avahi-utils
-build-essential
-i2c-tools
-net-tools
