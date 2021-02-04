@@ -7,7 +7,7 @@
     - vars.yaml
 
   handlers:
-    name: Validate github actions runner service is up
+    - name: verify gar service
     service:
       name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
       state: started
@@ -49,13 +49,12 @@
         {{ install_dir }}/gar-{{ gar_version }}/config.sh 
           --url {{ repository }}
           --token {{ repo_token }}
-
         ./svc.sh install
     
     - name: Start github actions runner service
       command: >
         sudo ./svc.sh start
-      notify: Validate github actions runner service is up
+      notify: verify gar service
       
         
 
