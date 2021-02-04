@@ -6,25 +6,56 @@
   vars_files:
     - vars.yaml
 
-  pre_tasks:
-    - name: Validate connection to github.com
-      wait_for: 
-        host: "{{ github_servers[0] }}"
-        port: 80
-        timeout: 30
-        active_connection_states: ESTABLISHED
+  handlers:
+    name: Validate github actions runner service is up
+    service:
+      name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+      state: started
 
-    - name: Validate connection to api.github.com
-      wait_for:
-        host: "{{ github_servers[1] }}"
+  pre_tasks:
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for: 
+        host: "{{ item }}"
         port: 80
         timeout: 30
         active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
     
-    - name: Validate connection to codeload.github.com
-      wait_for:
-        host: "{{ github_servers[2] }}"
-        port: 80
-        timeout: 30
-        active_connection_states: ESTABLISHED
+    # create install directory in /opt
+    - name: Setup github actions directory
+      file:
+        path: "{{ install_dir }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0775
+
+  tasks:
+    - name: Download github actions runner
+      get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
+        dest: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        checksum: "{{ gar_checksum }}"
+
+    - name: Install github actions runner
+      unarchive:
+        src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        dest: "{{ install_dir }}"
+        remote_src: true
+        creates: "{{ install_dir }}/gar-{{ gar_version }}/README.md"
+      
+      command: >
+        {{ install_dir }}/gar-{{ gar_version }}/config.sh 
+          --url {{ repository }}
+          --token {{ repo_token }}
+
+        ./svc.sh install
+    
+    - name: Start github actions runner service
+      command: >
+        sudo ./svc.sh start
+      notify: Validate github actions runner service is up
+      
+        
 
