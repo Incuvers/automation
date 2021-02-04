@@ -1,0 +1,30 @@
+---
+- name: Setup Github Actions CI Build Server
+  hosts: ci
+  become: true
+
+  vars_files:
+    - vars.yaml
+
+  pre_tasks:
+    - name: Validate connection to github.com
+      wait_for: 
+        host: "{{ github_servers[0] }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+
+    - name: Validate connection to api.github.com
+      wait_for:
+        host: "{{ github_servers[1] }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+    
+    - name: Validate connection to codeload.github.com
+      wait_for:
+        host: "{{ github_servers[2] }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+
