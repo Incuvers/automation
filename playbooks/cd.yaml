@@ -8,9 +8,9 @@
 
   handlers:
     - name: verify gar service
-    service:
-      name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
-      state: started
+      service:
+        name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+        state: started
 
   pre_tasks:
     # use wait_for to validate github servers can be reached from the target node
@@ -38,13 +38,14 @@
         dest: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
         checksum: "{{ gar_checksum }}"
 
-    - name: Install github actions runner
+    - name: Extract github actions runner
       unarchive:
         src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
         dest: "{{ install_dir }}"
         remote_src: true
         creates: "{{ install_dir }}/gar-{{ gar_version }}/README.md"
-      
+    
+    - name: Install github actions runner
       command: >
         {{ install_dir }}/gar-{{ gar_version }}/config.sh 
           --url {{ repository }}
