@@ -6,51 +6,47 @@
   vars_files:
     - vars.yaml
 
-  # handlers:
-  #   - name: Test Handler
-  #     service: 
-
   pre_tasks:
     - name: Update apt cache
-      apt: 
+      apt:
         update_cache: true
         cache_valid_time: 3600
 
   tasks:
     - name: Install node dependancies
       apt:
-        name: 
+        name:
           - avahi-utils
           - net-tools
         state: present
-    
-    - name: Copy configuration files 
-      copy: 
+
+    - name: Copy configuration files
+      copy:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
         owner: root
         group: root
         mode: 0644
       with_items:
-        # if the source files exist in a directory called files/ relative to the playbook it looks 
+        # if the source files exist in a directory called files/ relative to the playbook it looks
         # for them there
         - src: cmdline.txt
           dest: /boot/firmware/cmdline.txt
         - src: usercfg.txt
           dest: /boot/firmware/usercfg.txt
-    
+
     - name: Disable wpa supplicant service
       service:
         name: wpa_supplicant
         state: stopped
         enabled: false
-    
+
     - name: Firewall configuration
       ufw:
         direction: routed
         default: allow
         route: true
-      
+
     - name: Configure hostnames
       hostname:
         name: "{{ hostname }}"
