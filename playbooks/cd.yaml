@@ -1,6 +1,6 @@
 ---
 - name: Setup Github Actions CI Build Server
-  hosts: ci
+  hosts: cd
   become: true
 
   vars_files:
