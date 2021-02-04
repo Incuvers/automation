@@ -19,4 +19,4 @@ jobs:
         run: sudo apt install shellcheck -y
 
       - name: Run shellcheck linter.
-        run: shellcheck scripts/* node/scripts/*
+        run: shellcheck scripts/*
