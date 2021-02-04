@@ -1,11 +1,24 @@
 ---
-- name: Configure Server Nodes
-  hosts: all
+- name: Configure Cluster Nodes
+  hosts: cluster
   become: true
+
+  vars_files:
+    - vars.yaml
+
+  # handlers:
+  #   - name: Test Handler
+  #     service: 
+
+  pre_tasks:
+    - name: Update apt cache
+      apt: 
+        update_cache: true
+        cache_valid_time: 3600
+
   tasks:
     - name: Install node dependancies
       apt:
-        update_cache: true
         name: 
           - avahi-utils
           - net-tools
