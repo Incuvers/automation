@@ -43,11 +43,13 @@
         src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
         dest: "{{ install_dir }}"
         remote_src: true
-        creates: "{{ install_dir }}/gar-{{ gar_version }}/README.md"
+        creates: "{{ install_dir }}/README.md"
 
+    # this cannot be run with sudo
     - name: Install github actions runner
+      become: false
       command: >
-        {{ install_dir }}/gar-{{ gar_version }}/config.sh
+        {{ install_dir }}/config.sh
           --url {{ repository }}
           --token {{ repo_token }}
         ./svc.sh install
