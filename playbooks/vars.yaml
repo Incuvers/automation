@@ -5,8 +5,18 @@ systemd_dir: /etc/systemd/system
 master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
 extra_server_args: ""
 extra_agent_args: ""
+download_dir: /tmp
+install_dir: /opt/actions-runner
+runner_name: RPi_Snap_Build
+repository_name: monitor
+repository_owner: Incuvers
+repository: "https://github.com/{{ repository_owner }}/{{ repository_name }}"
+repo_token: AGNYXHGJ3CJKT6HCJXBM4KTADQSQG
+gar_version: 2.276.1
+gar_checksum: SHA256:77ba7bfe67f266df70cd040fbea6d433d1a063596056160cd5e3c439ac47fd70
+arch: arm64
 github_servers:
   - github.com
   - api.github.com
-  # - *.actions.githubusercontent.com
   - codeload.github.com
+  # - *.actions.githubusercontent.com
