@@ -64,7 +64,7 @@
       command: >
         chdir="{{ actions_runner }}" ./svc.sh start
       notify: verify actions runner service
-  
+
   post_tasks:
     - name: Clean build artefacts
       file:

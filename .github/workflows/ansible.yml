@@ -21,4 +21,5 @@ jobs:
       - name: Run ansible-playbook linter.
         run: |
           ansible-playbook playbooks/main.yaml --syntax-check
-          ansible-playbook playbooks/cd.yaml --syntax-check
+          ansible-playbook playbooks/cd-config.yaml --syntax-check
+          ansible-playbook playbooks/cd-teardown.yaml --syntax-check
