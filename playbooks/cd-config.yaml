@@ -32,6 +32,26 @@
         mode: 0775
 
   tasks:
+    - name: Install lxd
+      snap:
+        name:
+          - lxd
+    
+    - name: Configure lxd
+      command: >
+        lxd init --auto
+        usermod -a -G lxd {{ ansible_user }}
+        newgrp lxd
+
+    # snapcraft install is a seperate task due to its strict channel and confinement parameters 
+    - name: Install snapcraft
+      snap:
+        name:
+          - lxd
+          - snapcraft
+        classic: yes
+        channel: candidate
+
     - name: Download github actions runner
       get_url:
         url: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
