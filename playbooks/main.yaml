@@ -3,9 +3,6 @@
   hosts: cluster
   become: true
 
-  vars_files:
-    - vars.yaml
-
   handlers:
     # confirm sshd is running after restart
     - name: sshd restart
