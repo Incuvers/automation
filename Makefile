@@ -25,9 +25,11 @@ clean: ## clean build artifacts
 ssh-auth: ## start node build
 	@./scripts/ssh-auth
 
-.PHONY: node-build
-node-build: ## build node environment
-	@./scripts/node-build
+.PHONY: config-cd
+config-cd: ## run github actions cd config playbook
+	@printf "%b" "${OKB}Executing continuous deployment configuration playbook${NC}\n"
+	@ansible-playbook playbooks/cd-config.yaml -K && printf "%b" "${OKG} ✓ ${NC} complete\n" || \
+		printf "%b" "${FAIL} ✗ ${NC} playbook execution failed.\n"
 
 .PHONY: help	
 help:
