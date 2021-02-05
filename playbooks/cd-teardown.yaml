@@ -26,7 +26,7 @@
     - name: Remove configuration
       become: false
       command: >
-        {{ actions_runner }}/config.sh remove --token {{ repo_token }}
+        {{ actions_runner }}/config.sh remove --token {{ token }}
 
   post_tasks:
     - name: Clean Github Actions artefact path

@@ -50,7 +50,7 @@
       become: false
       expect:
         command: >
-          {{ actions_runner }}/config.sh --url {{ repository }} --token {{ repo_token }}
+          {{ actions_runner }}/config.sh --url {{ repository }} --token {{ token }}
         responses:
           (.*)Enter the name of runner:(.*): "{{ runner_name }}"
           (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): ""
