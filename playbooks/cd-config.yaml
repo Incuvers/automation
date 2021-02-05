@@ -1,0 +1,72 @@
+---
+- name: Setup Github Actions Continuous Deployment Server
+  hosts: cd
+  become: true
+
+  vars_files:
+    - cd-vars.yaml
+
+  handlers:
+    - name: verify actions runner service
+      service:
+        name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+        state: started
+
+  pre_tasks:
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for:
+        host: "{{ item }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
+
+    # create install directory in /opt
+    - name: Setup github actions directory
+      file:
+        path: "{{ actions_runner }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0775
+
+  tasks:
+    - name: Download github actions runner
+      get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
+        dest: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        checksum: "{{ gar_checksum }}"
+
+    - name: Extract github actions runner
+      unarchive:
+        src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        dest: "{{ actions_runner }}"
+        remote_src: true
+        creates: "{{ actions_runner }}/README.md"
+
+    # this cannot be run with sudo
+    - name: Configure actions runner
+      become: false
+      expect:
+        command: >
+          {{ actions_runner }}/config.sh --url {{ repository }} --token {{ repo_token }}
+        responses:
+          (.*)Enter the name of runner:(.*): "{{ runner_name }}"
+          (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): ""
+          (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
+
+    - name: Install github actions runner
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh install
+
+    - name: Start github actions runner service
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh start
+      notify: verify actions runner service
+  
+  post_tasks:
+    - name: Clean build artefacts
+      file:
+        state: absent
+        path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
