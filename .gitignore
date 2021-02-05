@@ -3,3 +3,6 @@
 
 # build artefacts
 build
+
+# ignore keys
+secrets/*.key
