@@ -1,0 +1,35 @@
+---
+- name: Teardown Github Actions Continuous Deployment Server
+  hosts: cd
+  become: true
+
+  vars_files:
+    - cd-vars.yaml
+
+  handlers:
+    - name: verify gar service
+      service:
+        name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+        state: stopped
+
+  tasks:
+    - name: Stop github actions runner service
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh stop
+      notify: verify gar service
+
+    # this cannot be run with sudo
+    - name: Uninstall github actions runner
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh uninstall
+
+    - name: Remove configuration
+      become: false
+      command: >
+        {{ actions_runner }}/config.sh remove --token {{ repo_token }}
+
+  post_tasks:
+    - name: Clean Github Actions artefact path
+      file:
+        state: absent
+        path: "{{ actions_runner }}/"
