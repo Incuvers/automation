@@ -36,20 +36,20 @@
       snap:
         name:
           - lxd
-    
+
     - name: Configure lxd
       command: >
         lxd init --auto
         usermod -a -G lxd {{ ansible_user }}
         newgrp lxd
 
-    # snapcraft install is a seperate task due to its strict channel and confinement parameters 
+    # snapcraft install is a seperate task due to its strict channel and confinement parameters
     - name: Install snapcraft
       snap:
         name:
           - lxd
           - snapcraft
-        classic: yes
+        classic: true
         channel: candidate
 
     - name: Download github actions runner
@@ -90,6 +90,6 @@
       file:
         state: absent
         path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
-      
+
     - name: Reboot to apply group mods
       reboot:
