@@ -2,6 +2,17 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+.PHONY: help	
+help:
+	@echo Usage:
+	@echo "  make [target]"
+	@echo
+	@echo Targets:
+	@awk -F ':|##' \
+		'/^[^\t].+?:.*?##/ {\
+			printf "  %-30s %s\n", $$1, $$NF \
+		 }' $(MAKEFILE_LIST)
+
 .PHONY: all
 all : setup flash
 
@@ -30,14 +41,3 @@ config-cd: ## run github actions cd config playbook
 	@printf "%b" "${OKB}Executing continuous deployment configuration playbook${NC}\n"
 	@ansible-playbook playbooks/cd-config.yaml -K && printf "%b" "${OKG} ✓ ${NC} complete\n" || \
 		printf "%b" "${FAIL} ✗ ${NC} playbook execution failed.\n"
-
-.PHONY: help	
-help:
-	@echo Usage:
-	@echo "  make [target]"
-	@echo
-	@echo Targets:
-	@awk -F ':|##' \
-		'/^[^\t].+?:.*?##/ {\
-			printf "  %-30s %s\n", $$1, $$NF \
-		 }' $(MAKEFILE_LIST)
