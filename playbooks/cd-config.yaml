@@ -90,3 +90,6 @@
       file:
         state: absent
         path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+      
+    - name: Reboot to apply group mods
+      reboot:
