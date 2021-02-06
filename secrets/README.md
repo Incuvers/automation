@@ -10,6 +10,6 @@ https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-a
 
 ## Create the key file
 ```bash
-echo PERSONAL_ACCESS_TOKEN > pat.key
+echo pat_key=PERSONAL_ACCESS_TOKEN > pat.key
 ```
 
