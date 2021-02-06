@@ -9,24 +9,37 @@
   handlers:
     - name: verify gar service
       service:
-        name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+        name: "actions.runner.{{ organization }}-{{ repository }}.{{ runner_name }}.service"
         state: stopped
 
   tasks:
     - name: Stop github actions runner service
       command: >
         chdir="{{ actions_runner }}" ./svc.sh stop
+      ignore_errors: true
       notify: verify gar service
 
     # this cannot be run with sudo
     - name: Uninstall github actions runner
       command: >
         chdir="{{ actions_runner }}" ./svc.sh uninstall
+      ignore_errors: true
+
+    - name: Generate runner token in admin:org scope
+      become: false
+      uri:
+        url: "{{ unregistration_endpoint }}"
+        method: POST
+        headers:
+          Authorization: "token {{ pa_token }}"
+          Accept: application/vnd.github.v3+json
+        status_code: 201
+      register: runner_token
 
     - name: Remove configuration
       become: false
       command: >
-        {{ actions_runner }}/config.sh remove --token {{ token }}
+        {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
 
   post_tasks:
     - name: Clean Github Actions artefact path

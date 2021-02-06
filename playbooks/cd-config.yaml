@@ -9,7 +9,7 @@
   handlers:
     - name: verify actions runner service
       service:
-        name: "actions.runner.{{ repository_owner }}-{{ repository_name }}.{{ runner_name }}.service"
+        name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
         state: started
 
   pre_tasks:
@@ -32,25 +32,19 @@
         mode: 0775
 
   tasks:
-    - name: Install lxd
-      snap:
-        name:
-          - lxd
-
-    - name: Configure lxd
-      command: >
-        lxd init --auto
-        usermod -a -G lxd {{ ansible_user }}
-        newgrp lxd
-
     # snapcraft install is a seperate task due to its strict channel and confinement parameters
     - name: Install snapcraft
       snap:
         name:
-          - lxd
           - snapcraft
         classic: true
         channel: candidate
+
+    - name: Configure lxd
+      shell: |
+        lxd init --auto
+        usermod -a -G lxd {{ ansible_user }}
+        newgrp lxd
 
     - name: Download github actions runner
       get_url:
@@ -65,12 +59,23 @@
         remote_src: true
         creates: "{{ actions_runner }}/README.md"
 
+    - name: Generate runner token in admin:org scope
+      become: false
+      uri:
+        url: "{{ registration_endpoint }}"
+        method: POST
+        headers:
+          Authorization: "token {{ pa_token }}"
+          Accept: application/vnd.github.v3+json
+        status_code: 201
+      register: runner_token
+
     # this cannot be run with sudo
     - name: Configure actions runner
       become: false
       expect:
         command: >
-          {{ actions_runner }}/config.sh --url {{ repository }} --token {{ token }}
+          {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
         responses:
           (.*)Enter the name of runner:(.*): "{{ runner_name }}"
           (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): ""
