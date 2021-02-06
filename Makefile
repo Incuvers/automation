@@ -1,5 +1,6 @@
 # Source user env flags
 include .env
+include secrets/pat.key
 export $(shell sed 's/=.*//' .env)
 
 .PHONY: help	
@@ -39,5 +40,13 @@ ssh-auth: ## start node build
 .PHONY: config-cd
 config-cd: ## run github actions cd config playbook
 	@printf "%b" "${OKB}Executing continuous deployment configuration playbook${NC}\n"
-	@ansible-playbook playbooks/cd-config.yaml -K && printf "%b" "${OKG} ✓ ${NC} complete\n" || \
+	@ansible-playbook playbooks/cd-config.yaml -K --extra-vars "pa_token=${pat_key}"\
+		&& printf "%b" "${OKG} ✓ ${NC} complete\n" || \
+		printf "%b" "${FAIL} ✗ ${NC} playbook execution failed.\n"
+
+.PHONY: destroy-cd
+destroy-cd: ## run github actions cd teardown playbook
+	@printf "%b" "${OKB}Executing continuous deployment teardown playbook${NC}\n"
+	@ansible-playbook playbooks/cd-teardown.yaml -K --extra-vars "pa_token=${pat_key}"\
+		&& printf "%b" "${OKG} ✓ ${NC} complete\n" || \
 		printf "%b" "${FAIL} ✗ ${NC} playbook execution failed.\n"
