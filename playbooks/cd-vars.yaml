@@ -1,6 +1,6 @@
 ---
+hostname: iris-snap
 actions_runner: /opt/actions-runner
-runner_name: snap-build
 gar_work_folder: work
 repository: monitor
 organization: Incuvers
