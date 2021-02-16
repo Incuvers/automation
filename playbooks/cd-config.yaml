@@ -9,10 +9,36 @@
   handlers:
     - name: verify actions runner service
       service:
-        name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
+        name: "actions.runner.{{ organization }}.{{ hostname }}.service"
         state: started
 
   pre_tasks:
+    - name: Update apt cache and install apt packages
+      apt:
+        name: 
+          - avahi-utils
+          - python3-pip
+        state: present
+        update_cache: true
+    
+    - name: Install pip packages for ansible modules
+      pip:
+        name: pexpect
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Configure avahi with local hostname
+      command: >
+        avahi-set-host-name {{ hostname }}
+      ignore_errors: true
+
+    - name: Verify avahi is running
+      service:
+        name: avahi-daemon
+        state: started
+
     # use wait_for to validate github servers can be reached from the target node
     - name: Validate connection to github.com servers
       wait_for:
@@ -29,7 +55,7 @@
         state: directory
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-        mode: 0775
+        mode: 0777
 
   tasks:
     # snapcraft install is a seperate task due to its strict channel and confinement parameters
@@ -40,11 +66,11 @@
         classic: true
         channel: candidate
 
-    - name: Configure lxd
-      shell: |
-        lxd init --auto
-        usermod -a -G lxd {{ ansible_user }}
-        newgrp lxd
+    # - name: Configure lxd
+    #   shell: |
+    #     lxd init --auto
+    #     usermod -a -G lxd {{ ansible_user }}
+    #     newgrp lxd
 
     - name: Download github actions runner
       get_url:
@@ -57,6 +83,9 @@
         src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
         dest: "{{ actions_runner }}"
         remote_src: true
+        mode: 0777
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         creates: "{{ actions_runner }}/README.md"
 
     - name: Generate runner token in admin:org scope
@@ -77,9 +106,11 @@
         command: >
           {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
         responses:
-          (.*)Enter the name of runner:(.*): "{{ runner_name }}"
+          (.*)Enter the name of runner:(.*): ""
           (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): ""
           (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
+          (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
+      ignore_errors: true
 
     - name: Install github actions runner
       command: >

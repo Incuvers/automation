@@ -9,7 +9,7 @@
   handlers:
     - name: verify gar service
       service:
-        name: "actions.runner.{{ organization }}-{{ repository }}.{{ runner_name }}.service"
+        name: "actions.runner.{{ organization }}.{{ hostname }}.service"
         state: stopped
 
   tasks:
