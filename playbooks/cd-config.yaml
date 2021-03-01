@@ -23,7 +23,9 @@
     
     - name: Install pip packages for ansible modules
       pip:
-        name: pexpect
+        name:
+          - pexpect
+          - boto3
 
     - name: Set hostname
       hostname:
@@ -66,11 +68,11 @@
         classic: true
         channel: candidate
 
-    # - name: Configure lxd
-    #   shell: |
-    #     lxd init --auto
-    #     usermod -a -G lxd {{ ansible_user }}
-    #     newgrp lxd
+    - name: Configure lxd
+      shell: |
+        lxd init --auto
+        usermod -a -G lxd {{ ansible_user }}
+        newgrp lxd
 
     - name: Download github actions runner
       get_url:
