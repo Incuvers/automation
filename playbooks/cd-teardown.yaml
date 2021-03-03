@@ -58,3 +58,10 @@
       file:
         state: absent
         path: "{{ actions_runner }}/"
+
+    - name: Uninstall packages
+      pip:
+        state: absent
+        name:
+          - pexpect
+          - boto3
