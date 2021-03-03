@@ -46,7 +46,7 @@
         {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
       ignore_errors: true
 
-    - name: Upstream monitor deploy key removal 
+    - name: Upstream monitor deploy key removal
       script: scripts/remove_key.sh {{ pa_token }} Incuvers monitor monitor_deploy_key
 
     - name: Upstream icb deploy key removal
