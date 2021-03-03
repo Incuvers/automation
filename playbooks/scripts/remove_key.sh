@@ -6,7 +6,7 @@ handler() {
     # use existance of local key file to check for idempotence
     if [ -f "$LOCAL_KEY_PATH" ]; then
         printf "%b" "${FAIL} ✗ ${NC} key removal failed with error code $1 on line $2\n"
-        exit $1
+        exit "$1"
     else
         printf "%b" "${WARNING} ! ${NC} No local public key. Skipping."
         exit 0

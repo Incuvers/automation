@@ -20,7 +20,7 @@ EOF
 ssh-keygen -b 4096 -t rsa -f "$HOME"/.ssh/test_key -q -N ""
 
 # save pub key
-PUB_KEY=$(< $LOCAL_KEY_PATH)
+PUB_KEY=$(< "$LOCAL_KEY_PATH")
 
 # create deploy key
 printf "%b" "${OKB}Starting post request for deploy key creation${NC}:\n"
@@ -52,12 +52,12 @@ if [ -f "$LOCAL_KEY_PATH" ]; then
          -H "Authorization: token $PA_TOKEN" \
          https://api.github.com/repos/"$OWNER"/"$REPO"/keys | \
         jq '.[] | .id' | \
-        while read _id; do
+        while read -r _id; do
             # get deploy key @ id
             TEST_KEY=$(curl -X "GET" \
                 -H "Authorization: token $PA_TOKEN" \
                 -H "Accept: application/vnd.github.v3+json" \
-                https://api.github.com/repos/"$OWNER"/"$REPO"/keys/$_id | \
+                https://api.github.com/repos/"$OWNER"/"$REPO"/keys/"$_id" | \
                 jq '.key')
 	    # remove "" for string comparison
 	    TEST_KEY=$(echo "$TEST_KEY" | tr -d \")
@@ -66,7 +66,7 @@ if [ -f "$LOCAL_KEY_PATH" ]; then
                 printf "%b" "${OKB}Deploy key match found @ $_id${NC}"
                 curl -X "DELETE" \
                      -H "Authorization: token $PA_TOKEN"\
-                     https://api.github.com/repos/"$OWNER"/"$REPO"/keys/$_id
+                     https://api.github.com/repos/"$OWNER"/"$REPO"/keys/"$_id"
                 break
             fi
         done
