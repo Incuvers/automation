@@ -36,10 +36,10 @@ clean: ## clean build artifacts
 ssh-auth: ## start node build
 	@./scripts/ssh-auth
 
-.PHONY: config-cd
-config-cd: ## run github actions cd config playbook
-	@./scripts/run.sh cd-config.yaml
+.PHONY: ib-deploy
+ib-deploy: ## run github actions cd config playbook
+	@./scripts/run.sh ib-deploy.yaml
 
-.PHONY: destroy-cd
-destroy-cd: ## run github actions cd teardown playbook
-	@./scripts/run.sh cd-teardown.yaml
+.PHONY: ib-teardown
+ib-teardown: ## run github actions cd teardown playbook
+	@./scripts/run.sh ib-teardown.yaml

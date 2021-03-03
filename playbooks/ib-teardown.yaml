@@ -1,16 +1,20 @@
 ---
-- name: Teardown Github Actions Continuous Deployment Server
+- name: Teardown IRIS Build Server
   hosts: cd
   become: true
 
   vars_files:
-    - cd-vars.yaml
+    - ib-vars.yaml
 
-  handlers:
-    - name: verify gar service
-      service:
-        name: "actions.runner.{{ organization }}.{{ hostname }}.service"
-        state: stopped
+  pre_tasks:
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for:
+        host: "{{ item }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
 
   tasks:
     - name: Stop github actions runner service
@@ -48,6 +52,16 @@
     - name: Upstream icb deploy key removal
       script: scripts/remove_key.sh {{ pa_token }} Incuvers icb icb_deploy_key
 
+    - name: Remove local ssh deploy keys
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /home/ubuntu/.ssh/monitor_deploy_key.pub
+        - /home/ubuntu/.ssh/monitor_deploy_key
+        - /home/ubuntu/.ssh/icb_deploy_key.pub
+        - /home/ubuntu/.ssh/icb_deploy_key
+
     - name: Remove ssh config
       file:
         path: /home/ubuntu/.ssh/config
@@ -59,9 +73,15 @@
         state: absent
         path: "{{ actions_runner }}/"
 
-    - name: Uninstall packages
+    - name: Uninstall pip packages
       pip:
         state: absent
         name:
           - pexpect
           - boto3
+
+    - name: Uninstall snapcraft
+      snap:
+        name:
+          - snapcraft
+        state: absent

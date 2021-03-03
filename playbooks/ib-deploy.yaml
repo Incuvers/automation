@@ -1,10 +1,10 @@
 ---
-- name: Setup Github Actions Continuous Deployment Server
+- name: Setup IRIS Build Server
   hosts: cd
   become: true
 
   vars_files:
-    - cd-vars.yaml
+    - ib-vars.yaml
 
   handlers:
     - name: verify actions runner service
@@ -15,12 +15,12 @@
   pre_tasks:
     - name: Update apt cache and install apt packages
       apt:
-        name: 
+        name:
           - avahi-utils
           - python3-pip
         state: present
         update_cache: true
-    
+
     - name: Install pip packages for ansible modules
       pip:
         name:
@@ -59,16 +59,6 @@
         group: "{{ ansible_user }}"
         mode: 0777
 
-    - name: Generate RSA deploy keys (overwrite existing)
-      command: echo -e 'y\n' | ssh-keygen -b 4096 -t rsa -f /home/ubuntu/.ssh/"{{ item }}"_deploy_key -q -N ""
-      args: 
-        creates:
-          - /home/ubuntu/.ssh/{{ item }}_deploy_key.pub
-          - /home/ubuntu/.ssh/{{ item }}_deploy_key
-      with_items:
-        - monitor
-        - icb
-
   tasks:
     # snapcraft install is a seperate task due to its strict channel and confinement parameters
     - name: Install snapcraft
@@ -77,6 +67,16 @@
           - snapcraft
         classic: true
         channel: candidate
+
+    - name: Generate RSA deploy keys (overwrite existing)
+      command: echo -e 'y\n' | ssh-keygen -b 4096 -t rsa -f /home/ubuntu/.ssh/"{{ item }}"_deploy_key -q -N ""
+      args:
+        creates:
+          - /home/ubuntu/.ssh/{{ item }}_deploy_key.pub
+          - /home/ubuntu/.ssh/{{ item }}_deploy_key
+      with_items:
+        - monitor
+        - icb
 
     - name: Configure lxd
       shell: |
