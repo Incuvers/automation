@@ -1,6 +1,6 @@
 Host github.com-monitor
     Hostname github.com
-    IdentityFile=/home/ubuntu/.ssh/monitor_deploy_key
+    IdentityFile /home/ubuntu/.ssh/monitor_deploy_key
 Host github.com-icb
     Hostname github.com
-    IdentityFile=/home/ubuntu/.ssh/icb_deploy_key
+    IdentityFile /home/ubuntu/.ssh/icb_deploy_key
