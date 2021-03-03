@@ -40,9 +40,6 @@ OWNER="$2"
 REPO="$3"
 LOCAL_KEY_PATH="/home/ubuntu/.ssh/$4.pub"
 
-# save target pub key
-PUB_KEY=$(< "$LOCAL_KEY_PATH")
-
 # list deploy keys
 printf "%b" "${OKB}Fetching repository deploy keys:${NC}\n"
 curl -X "GET" \
