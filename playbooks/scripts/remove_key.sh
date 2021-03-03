@@ -1,38 +1,44 @@
-#!/bin/bash -l
-
-source .env
+#!/bin/bash -x
 
 trap 'handler $? $LINENO' ERR
 
 handler() {
-    printf "%b" "${FAIL} ✗ ${NC} key removal failed with error code $1 on line $2\n"
-    exit $1
+    # use existance of local key file to check for idempotence
+    if [ -f "$LOCAL_KEY_PATH" ]; then
+        printf "%b" "${FAIL} ✗ ${NC} key removal failed with error code $1 on line $2\n"
+        exit $1
+    else
+        printf "%b" "${WARNING} ! ${NC} No local public key. Skipping."
+        exit 0
+    fi
 }
 
 usage() {
   cat <<EOF
-Usage: ./deploy.sh [arg1] [arg2] [arg3]
+Usage: ./deploy.sh [arg1] [arg2] [arg3] [arg4]
 
 Remove matching local and upstream deploy key from a repository. 
 
 Required arguments:
-[arg1]      Repository owner
-[arg2]      Repository
-[arg3]      Local key filename
+[arg1]      Personal Access Token
+[arg2]      Repository owner
+[arg3]      Repository
+[arg4]      Local key filename
 EOF
 }
 
 # arg 1: REPO name
-if [ "$#" -ne 3 ]; then
+if [ "$#" -ne 4 ]; then
     printf "%b" "${FAIL}Missing required arguments${NC}\n"
     printf "%b" "$(usage)\n"
     exit 1
 fi
 
 # resolve vars
-OWNER="$1"
-REPO="$2"
-LOCAL_KEY_PATH="$HOME/.ssh/$3.pub"
+PA_TOKEN="$1"
+OWNER="$2"
+REPO="$3"
+LOCAL_KEY_PATH="/home/ubuntu/.ssh/$4.pub"
 
 # save target pub key
 PUB_KEY=$(< "$LOCAL_KEY_PATH")
@@ -75,6 +81,9 @@ curl -X "GET" \
             break
         fi
     done
-fi
+
+# remove local key files (.pub and private)
+LOCAL_PRIV_KEY_PATH=$(echo "$LOCAL_KEY_PATH" | cut -d '.' -f -2)
+rm -f "$LOCAL_KEY_PATH" "$LOCAL_PRIV_KEY_PATH"
 
 printf "%b" "${OKG} ✓ ${NC} key removal complete\n"
