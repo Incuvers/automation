@@ -29,16 +29,6 @@ if [ "$#" -ne 3 ]; then
     exit 1
 fi
 
-gen_payload(){
-    cat <<EOF
-{
-    "key": "$PUB_KEY",
-    "read_only": true,
-    "title": "Test deploy"
-}
-EOF
-}
-
 # resolve vars
 OWNER="$1"
 REPO="$2"
