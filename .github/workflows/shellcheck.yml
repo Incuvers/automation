@@ -20,5 +20,5 @@ jobs:
 
       - name: Run shellcheck linter.
         run: |
-          shellcheck -x scripts/*
+          shellcheck -x --exclude SC2029 scripts/*
           shellcheck playbooks/scripts/*
