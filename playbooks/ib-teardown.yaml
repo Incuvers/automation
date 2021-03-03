@@ -80,8 +80,19 @@
           - pexpect
           - boto3
 
+    - name: Uninstall apt packages
+      pip:
+        state: absent
+        name:
+          - avahi-utils
+          - python3-pip
+
     - name: Uninstall snapcraft
       snap:
         name:
           - snapcraft
         state: absent
+
+    - name: Reset hostname
+      hostname:
+        name: ubuntu
