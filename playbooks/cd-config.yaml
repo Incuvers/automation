@@ -114,7 +114,7 @@
     - name: Copy ssh config for key alias
       copy:
         src: config
-        dest: ~/.ssh/config
+        dest: /home/ubuntu/.ssh/config
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: 0644
