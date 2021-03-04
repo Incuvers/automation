@@ -1,0 +1,122 @@
+---
+- name: Setup IRIS Deployment Server
+  hosts: deploy
+
+  vars_files:
+    - id-vars.yaml
+
+  handlers:
+    - name: verify actions runner service
+      service:
+        name: "actions.runner.{{ organization }}.{{ hostname }}.service"
+        state: started
+
+  pre_tasks:
+    - name: Update apt cache and install apt packages
+      become: true
+      apt:
+        name:
+          - avahi-utils
+          - python3-pip
+        state: present
+        update_cache: true
+
+    - name: Install pip packages for ansible modules
+      become: true
+      pip:
+        name:
+          - pexpect
+
+    - name: Set hostname
+      become: true
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Configure avahi with local hostname
+      command: >
+        avahi-set-host-name {{ hostname }}
+      ignore_errors: true
+
+    - name: Verify avahi is running
+      service:
+        name: avahi-daemon
+        state: started
+
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for:
+        host: "{{ item }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
+
+    # create install directory in /opt
+    - name: Setup github actions directory
+      become: true
+      file:
+        path: "{{ actions_runner }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0777
+
+  tasks:
+    - name: Download github actions runner
+      get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
+        dest: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        checksum: "{{ gar_checksum }}"
+
+    - name: Extract github actions runner
+      unarchive:
+        src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+        dest: "{{ actions_runner }}"
+        remote_src: true
+        mode: 0777
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        creates: "{{ actions_runner }}/README.md"
+
+    - name: Generate Github Actions Runner token
+      uri:
+        url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/registration-token"
+        method: POST
+        headers:
+          Authorization: "token {{ pa_token }}"
+          Accept: application/vnd.github.v3+json
+        status_code: 201
+      register: runner_token
+
+    - name: Configure actions runner
+      expect:
+        command: >
+          {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
+        responses:
+          (.*)Enter the name of runner:(.*): ""
+          (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): ""
+          (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
+          (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
+      ignore_errors: true
+
+    - name: Install github actions runner
+      become: true
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh install
+
+    - name: Start github actions runner service
+      become: true
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh start
+      notify: verify actions runner service
+
+  post_tasks:
+    - name: Clean build artefacts
+      file:
+        state: absent
+        path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+
+    - name: Reboot to apply group mods
+      become: true
+      reboot:
+
