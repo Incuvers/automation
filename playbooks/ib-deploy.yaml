@@ -1,6 +1,6 @@
 ---
 - name: Setup IRIS Build Server
-  hosts: cd
+  hosts: build
 
   vars_files:
     - ib-vars.yaml

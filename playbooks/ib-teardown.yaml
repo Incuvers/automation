@@ -1,6 +1,6 @@
 ---
 - name: Teardown IRIS Build Server
-  hosts: cd
+  hosts: build
   become: true
 
   vars_files:
