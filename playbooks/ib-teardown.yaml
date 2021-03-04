@@ -21,7 +21,6 @@
       command: >
         chdir="{{ actions_runner }}" ./svc.sh stop
       ignore_errors: true
-      notify: verify gar service
 
     # this cannot be run with sudo
     - name: Uninstall github actions runner

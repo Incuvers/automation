@@ -72,7 +72,17 @@
         mode: 0777
 
   tasks:
-    - name: Generate RSA deploy keys (overwrite existing)
+    - name: Remove pre-existing RSA deploy keys
+      file:
+        path: 
+          - /home/ubuntu/.ssh/{{ item }}_deploy_key.pub
+          - /home/ubuntu/.ssh/{{ item }}_deploy_key
+        state: absent
+      with_items:
+        - monitor
+        - icb
+
+    - name: Generate RSA deploy keys
       command: ssh-keygen -b 4096 -t rsa -f /home/ubuntu/.ssh/"{{ item }}"_deploy_key -q -N ""
       args:
         creates:
@@ -83,6 +93,7 @@
         - icb
 
     - name: Configure lxd
+      become: true
       shell: |
         lxd init --auto
         usermod -a -G lxd {{ ansible_user }}
@@ -141,7 +152,7 @@
             key: "{{ deploy_keys['results'][1]['content'] | b64decode }}"
             read_only: true
 
-    - name: Generate runner token in admin:org scope
+    - name: Generate Github Actions Runner token
       uri:
         url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/registration-token"
         method: POST
@@ -180,4 +191,6 @@
         path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
 
     - name: Reboot to apply group mods
+      become: true
       reboot:
+
