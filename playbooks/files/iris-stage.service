@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Staging client for iris snap deployment pipeline
+
+[Service]
+Type=simple
+ExecStart=stage
+
+[Install]
+WantedBy=multi-user.target
