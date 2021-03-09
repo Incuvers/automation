@@ -23,3 +23,5 @@ jobs:
           ansible-playbook playbooks/main.yaml --syntax-check
           ansible-playbook playbooks/ib-deploy.yaml --syntax-check
           ansible-playbook playbooks/ib-teardown.yaml --syntax-check
+          ansible-playbook playbooks/is-deploy.yaml --syntax-check
+          ansible-playbook playbooks/is-teardown.yaml --syntax-check

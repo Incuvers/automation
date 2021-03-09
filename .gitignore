@@ -6,3 +6,9 @@ build
 
 # ignore keys
 secrets/*.key
+
+# ignore machine and aws secrets for staging server
+playbooks/files/.secrets/*
+!playbooks/files/.secrets/README.md
+playbooks/files/.aws/*
+!playbooks/files/.aws/README.md

@@ -74,7 +74,7 @@
   tasks:
     - name: Remove pre-existing RSA deploy keys
       file:
-        path: 
+        path:
           - /home/ubuntu/.ssh/{{ item }}_deploy_key.pub
           - /home/ubuntu/.ssh/{{ item }}_deploy_key
         state: absent
@@ -193,4 +193,3 @@
     - name: Reboot to apply group mods
       become: true
       reboot:
-
