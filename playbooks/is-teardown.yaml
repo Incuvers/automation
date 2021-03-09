@@ -1,0 +1,38 @@
+---
+- name: Teardown IRIS Staging Server
+  hosts: stage
+
+  vars_files:
+    - is-vars.yaml
+
+  tasks:
+    - name: Stop the iris-stage service
+      become: true
+      service:
+        name: iris-stage
+        state: stopped
+
+    - name: Disable service
+      become: true
+      service:
+        name: iris-stage
+        enabled: false
+
+    - name: Uninstall staging client
+      pip:
+        name: iris-stage
+        absent: true
+
+    - name: Remove aws and machine secrets
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items:
+        - path: /home/ubuntu/.secrets
+        - path: /home/ubuntu/.aws
+
+    - name: Remove service files
+      become: true
+      file:
+        path: /etc/systemd/system/iris-stage.service
+        state: absent
