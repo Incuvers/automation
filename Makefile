@@ -37,9 +37,25 @@ ssh-auth: ## start node build
 	@./scripts/ssh-auth
 
 .PHONY: ib-deploy
-ib-deploy: ## run github actions cd config playbook
+ib-deploy: ## run the build server config
 	@./scripts/run.sh ib-deploy.yaml
 
 .PHONY: ib-teardown
-ib-teardown: ## run github actions cd teardown playbook
+ib-teardown: ## run the build server teardown
+	@./scripts/run.sh ib-teardown.yaml
+
+.PHONY: is-deploy
+ib-deploy: ## run the iris staging client config
+	@./scripts/run.sh ib-deploy.yaml
+
+.PHONY: is-teardown
+ib-teardown: ## run the iris staging client teardown
+	@./scripts/run.sh ib-teardown.yaml
+
+.PHONY: id-deploy
+ib-deploy: ## run the iris deploy server config
+	@./scripts/run.sh ib-deploy.yaml
+
+.PHONY: id-teardown
+ib-teardown: ## run the iris deploy server teardown
 	@./scripts/run.sh ib-teardown.yaml
