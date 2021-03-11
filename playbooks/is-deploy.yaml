@@ -20,9 +20,9 @@
         mode: 0664
       with_items:
         - src: .secrets
-          dest: /home/ubuntu/.secrets
+          dest: /home/ubuntu/
         - src: .aws
-          dest: /home/ubuntu/.aws
+          dest: /home/ubuntu/
 
     - name: Copy service file for start-on-boot
       become: true
