@@ -3,7 +3,7 @@ Description=Staging client for iris snap deployment pipeline
 
 [Service]
 Type=oneshot
-ExecStart=/home/ubuntu/.local/bin/stage
+ExecStart=/usr/local/bin/stage
 
 [Install]
 WantedBy=multi-user.target
