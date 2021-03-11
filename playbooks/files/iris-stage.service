@@ -3,7 +3,7 @@
 Description=Staging client for iris snap deployment pipeline
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=stage
 
 [Install]
