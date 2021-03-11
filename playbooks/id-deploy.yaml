@@ -33,6 +33,7 @@
         name: "{{ hostname }}"
 
     - name: Configure avahi with local hostname
+      become: true  
       command: >
         avahi-set-host-name {{ hostname }}
       ignore_errors: true
