@@ -1,5 +1,5 @@
 ---
-- name: Teardown IRIS Staging Server
+- name: Teardown IRIS Staging Client
   hosts: stage
 
   vars_files:
