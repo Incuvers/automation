@@ -3,6 +3,23 @@
 ![img](/docs/img/Incuvers-black.png)
 Modified: 2021-03
 
+- [TuringPi Configuration](#turingpi-configuration)
+  - [Preface](#preface)
+  - [Quickstart](#quickstart)
+  - [Flash Compute Modules](#flash-compute-modules)
+  - [User Management](#user-management)
+  - [Accessing the Server](#accessing-the-server)
+
+## Preface
+Some of the server jobs are hosted on a TuringPi V1 board with 7 RasberryPi 3B+ Compute Modules (RPi CM 3B+) with 32GB of eMMC storage and 1GB of RAM. Collectively the nodes yield a server with the following specification:
+
+| Category  |Quantity|
+|-----------|--------|
+| CPU Cores | 28     |
+| RAM       | 7 GiB  |
+| Storage   | 224 GB |
+| Network   | 1 Gbps |
+
 ## Quickstart
 Clone and run setup to generate build artefacts:
 ```bash
