@@ -4,6 +4,7 @@ Description=Staging client for iris snap deployment pipeline
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/stage
+RemainAfterExit=true
 
 [Install]
 WantedBy=multi-user.target
