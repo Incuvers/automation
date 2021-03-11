@@ -21,7 +21,7 @@
     - name: Uninstall staging client
       pip:
         name: iris-stage
-        absent: true
+        state: absent
 
     - name: Remove aws and machine secrets
       file:
