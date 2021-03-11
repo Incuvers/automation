@@ -45,17 +45,17 @@ ib-teardown: ## run the build server teardown
 	@./scripts/run.sh ib-teardown.yaml
 
 .PHONY: is-deploy
-ib-deploy: ## run the iris staging client config
+is-deploy: ## run the iris staging client config
 	@./scripts/run.sh ib-deploy.yaml
 
 .PHONY: is-teardown
-ib-teardown: ## run the iris staging client teardown
+is-teardown: ## run the iris staging client teardown
 	@./scripts/run.sh ib-teardown.yaml
 
 .PHONY: id-deploy
-ib-deploy: ## run the iris deploy server config
+id-deploy: ## run the iris deploy server config
 	@./scripts/run.sh ib-deploy.yaml
 
 .PHONY: id-teardown
-ib-teardown: ## run the iris deploy server teardown
+id-teardown: ## run the iris deploy server teardown
 	@./scripts/run.sh ib-teardown.yaml
