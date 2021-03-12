@@ -68,7 +68,7 @@
       become: true
       apt_repository:
         repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu focal stable
-        state: absent  
+        state: absent
 
     - name: Uninstall apt packages
       become: true
