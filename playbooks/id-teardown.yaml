@@ -17,12 +17,14 @@
 
   tasks:
     - name: Stop github actions runner service
+      become: true
       command: >
         chdir="{{ actions_runner }}" ./svc.sh stop
       ignore_errors: true
 
     # this cannot be run with sudo
     - name: Uninstall github actions runner
+      become: true
       command: >
         chdir="{{ actions_runner }}" ./svc.sh uninstall
       ignore_errors: true
@@ -41,33 +43,53 @@
       command: >
         {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
       ignore_errors: true
+    
+    - name: Remove docker group
+      become: true
+      group:
+        name: docker
+        state: absent
 
   post_tasks:
     - name: Clean Github Actions artefact path
-      become: false
+      become: true
       file:
         state: absent
         path: "{{ actions_runner }}/"
 
     - name: Uninstall pip packages
-      become: false
+      become: true
       pip:
         state: absent
         name:
           - pexpect
 
     - name: Uninstall apt packages
-      become: false
+      become: true
       apt:
         state: absent
+        autoremove: true
+        purge: true
         name:
           - avahi-utils
           - python3-pip
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+
+    - name: Reset avahi hostname
+      become: true  
+      command: avahi-set-host-name ubuntu
+      ignore_errors: true
 
     - name: Reset hostname
+      become: true
       hostname:
         name: ubuntu
 
-    - name: Reboot to apply hostname changes
+    - name: Reboot
       become: true
       reboot:
