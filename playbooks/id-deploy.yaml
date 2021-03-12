@@ -113,7 +113,7 @@
           {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
         responses:
           (.*)Enter the name of runner:(.*): ""
-          (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): "docker"
+          (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): "{{ tag }}"
           (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
           (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
       ignore_errors: true

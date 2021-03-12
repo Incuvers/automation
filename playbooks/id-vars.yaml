@@ -1,5 +1,6 @@
 ---
 hostname: iris-deploy
+tag: docker
 actions_runner: /opt/actions-runner
 gar_work_folder: work
 organization: Incuvers
