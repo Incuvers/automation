@@ -17,12 +17,14 @@
 
   tasks:
     - name: Stop github actions runner service
+      become: true
       command: >
         chdir="{{ actions_runner }}" ./svc.sh stop
       ignore_errors: true
 
     # this cannot be run with sudo
     - name: Uninstall github actions runner
+      become: true
       command: >
         chdir="{{ actions_runner }}" ./svc.sh uninstall
       ignore_errors: true
