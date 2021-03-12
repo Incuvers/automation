@@ -20,6 +20,7 @@ Follow the TuringPi configuration guide [here](/docs/turingpi.md)
 
 ## Deployments
 This section contains the instructions for deploying and destroying servers across any number of machines.
+
 ### Setup
 Install `ansible` using preferred package manager:
 ```bash
@@ -38,21 +39,30 @@ Follow the server specific instructions for automating server deployment and tea
 
 <details>
   <summary><b>Build Server</b></summary>
+  <h3>Quickstart</h3>
   <p>
-
+  </p>
+  <h3>Recommended Hardware</h3>
+  <p>
   </p>
 </details>
 
 <details>
   <summary><b>Staging Client</b></summary>
+  <h3>Quickstart</h3>
   <p>
-    
+  </p>
+  <h3>Recommended Hardware</h3>
+  <p>
   </p>
 </details>
 
 <details>
   <summary><b>Deployment Server</b></summary>
+  <h3>Quickstart</h3>
   <p>
-    
+  </p>
+  <h3>Recommended Hardware</h3>
+  <p>
   </p>
 </details>
