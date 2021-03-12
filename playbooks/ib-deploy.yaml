@@ -56,14 +56,15 @@
 
   tasks:
     - name: Remove pre-existing RSA deploy keys
+      become: true
       file:
-        path:
-          - /home/ubuntu/.ssh/{{ item }}_deploy_key.pub
-          - /home/ubuntu/.ssh/{{ item }}_deploy_key
+        path: "{{ item }}"
         state: absent
       with_items:
-        - monitor
-        - icb
+        - /home/ubuntu/.ssh/monitor_deploy_key.pub
+        - /home/ubuntu/.ssh/monitor_deploy_key
+        - /home/ubuntu/.ssh/icb_deploy_key
+        - /home/ubuntu/.ssh/icb_deploy_key.pub
 
     - name: Generate RSA deploy keys
       command: ssh-keygen -b 4096 -t rsa -f /home/ubuntu/.ssh/"{{ item }}"_deploy_key -q -N ""
