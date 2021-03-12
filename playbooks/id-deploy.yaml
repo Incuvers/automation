@@ -32,7 +32,7 @@
         name: "{{ hostname }}"
 
     - name: Configure avahi with local hostname
-      become: true  
+      become: true
       command: avahi-set-host-name {{ hostname }}
       ignore_errors: true
 
@@ -76,7 +76,7 @@
     - name: Install docker-ce
       become: true
       apt:
-        name: 
+        name:
           - docker-ce
         state: latest
 
@@ -90,7 +90,7 @@
       user:
         name: "{{ ansible_user }}"
         groups: docker
-        append: yes
+        append: true
 
     - name: Download github actions runner
       get_url:
@@ -144,7 +144,7 @@
       file:
         state: absent
         path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
-    
+
     - name: Reboot
       become: true
       reboot:

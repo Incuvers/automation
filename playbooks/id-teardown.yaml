@@ -43,7 +43,7 @@
       command: >
         {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
       ignore_errors: true
-    
+
     - name: Remove docker group
       become: true
       group:
@@ -81,7 +81,7 @@
           - software-properties-common
 
     - name: Reset avahi hostname
-      become: true  
+      become: true
       command: avahi-set-host-name ubuntu
       ignore_errors: true
 
