@@ -3,7 +3,7 @@
   hosts: deploy
 
   vars_files:
-    - id-vars.yaml
+    - id-vars-x64.yaml
 
   pre_tasks:
     # use wait_for to validate github servers can be reached from the target node
@@ -77,15 +77,9 @@
         autoremove: true
         purge: true
         name:
-          - python3-pip
           - docker-ce
           - docker-ce-cli
           - containerd.io
-
-    - name: Reset hostname
-      become: true
-      hostname:
-        name: ubuntu
 
     - name: Reboot
       become: true

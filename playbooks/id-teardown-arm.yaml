@@ -1,0 +1,92 @@
+---
+- name: Teardown IRIS Deployment Server
+  hosts: deploy
+
+  vars_files:
+    - id-vars-arm.yaml
+
+  pre_tasks:
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for:
+        host: "{{ item }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
+
+  tasks:
+    - name: Stop github actions runner service
+      become: true
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh stop
+      ignore_errors: true
+
+    # this cannot be run with sudo
+    - name: Uninstall github actions runner
+      become: true
+      command: >
+        chdir="{{ actions_runner }}" ./svc.sh uninstall
+      ignore_errors: true
+
+    - name: Retrieve Github Actions Runner token
+      uri:
+        url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/remove-token"
+        method: POST
+        headers:
+          Authorization: "token {{ pa_token }}"
+          Accept: application/vnd.github.v3+json
+        status_code: 201
+      register: runner_token
+
+    - name: Remove configuration
+      command: >
+        {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
+      ignore_errors: true
+
+    - name: Remove docker group
+      become: true
+      group:
+        name: docker
+        state: absent
+
+  post_tasks:
+    - name: Clean Github Actions artefact path
+      become: true
+      file:
+        state: absent
+        path: "{{ actions_runner }}/"
+
+    - name: Uninstall pip packages
+      become: true
+      pip:
+        state: absent
+        name:
+          - pexpect
+
+    - name: Remove Docker Repository
+      become: true
+      apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu focal stable
+        state: absent  
+
+    - name: Uninstall apt packages
+      become: true
+      apt:
+        state: absent
+        autoremove: true
+        purge: true
+        name:
+          - python3-pip
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: Reset hostname
+      become: true
+      hostname:
+        name: ubuntu
+
+    - name: Reboot
+      become: true
+      reboot:
