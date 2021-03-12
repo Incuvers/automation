@@ -81,7 +81,6 @@
           - software-properties-common
 
     - name: Reset avahi hostname
-      become: true
       command: avahi-set-host-name ubuntu
       ignore_errors: true
 
