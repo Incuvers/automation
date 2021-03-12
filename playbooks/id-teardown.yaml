@@ -77,15 +77,10 @@
         autoremove: true
         purge: true
         name:
-          - avahi-utils
           - python3-pip
           - docker-ce
           - docker-ce-cli
           - containerd.io
-
-    - name: Reset avahi hostname
-      command: avahi-set-host-name ubuntu
-      ignore_errors: true
 
     - name: Reset hostname
       become: true

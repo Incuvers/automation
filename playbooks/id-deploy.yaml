@@ -10,7 +10,6 @@
       become: true
       apt:
         name:
-          - avahi-utils
           - python3-pip
           - libffi-dev
           - libssl-dev
@@ -30,16 +29,6 @@
       become: true
       hostname:
         name: "{{ hostname }}"
-
-    - name: Configure avahi with local hostname
-      become: true
-      command: avahi-set-host-name {{ hostname }}
-      ignore_errors: true
-
-    - name: Verify avahi is running
-      service:
-        name: avahi-daemon
-        state: started
 
     # use wait_for to validate github servers can be reached from the target node
     - name: Validate connection to github.com servers

@@ -88,7 +88,6 @@
       apt:
         state: absent
         name:
-          - avahi-utils
           - python3-pip
 
     - name: Uninstall snapcraft
@@ -99,6 +98,7 @@
         state: absent
 
     - name: Reset hostname
+      become: true
       hostname:
         name: ubuntu
 
