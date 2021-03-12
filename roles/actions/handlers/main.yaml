@@ -1,0 +1,9 @@
+---
+- name: Reboot remote
+  become: true
+  reboot:
+
+- name: verify service
+  service:
+    name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
+    state: started

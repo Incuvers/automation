@@ -1,0 +1,17 @@
+---
+# system working folders
+actions_runner: /opt/actions-runner
+gar_work_folder: work
+download_dir: /tmp
+
+# github actions runner vars
+gar_repository: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
+
+# github server vars
+github_base_path: "https://api.github.com"
+organization: Incuvers
+organization_url: "https://github.com/{{ organization }}"
+github_servers:
+  - github.com
+  - api.github.com
+  - codeload.github.com

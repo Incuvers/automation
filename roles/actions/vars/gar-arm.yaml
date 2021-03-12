@@ -1,0 +1,5 @@
+---
+runner_name: iris-snap
+runner_tag: snap
+gar_version: 2.276.1
+gar_checksum: sha256:77ba7bfe67f266df70cd040fbea6d433d1a063596056160cd5e3c439ac47fd70
