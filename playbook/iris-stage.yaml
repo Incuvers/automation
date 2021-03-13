@@ -1,0 +1,28 @@
+---
+- name: Setup IRIS Staging Client
+  hosts: stage
+
+  pre_tasks:
+    # set the system hostname for job identification
+    - name: Set system hostname
+      become: true
+      hostname:
+        name: "{{ hostname }}"
+
+    # apt housekeeping
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: true
+        update_cache: yes
+        cache_valid_time: 3600
+
+    # upgrade pip
+    - name: Upgrade pip module
+      pip:
+        name: pip
+        state: latest
+
+  tasks:
+     - include_role:
+        name: stage

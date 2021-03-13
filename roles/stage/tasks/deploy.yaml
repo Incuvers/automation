@@ -1,0 +1,38 @@
+---
+# install iris staging client from python packaging index
+- name: Install staging client
+  pip:
+    name: iris-stage
+    extra_args: --upgrade
+
+# copy aws and iris runtime certification and configuration files to $HOME
+- name: Copy aws and machine secrets
+  copy:
+    src: "{{ item }}"
+    dest: /home/ubuntu/
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0664
+  with_items:
+    - .secrets
+    - .aws
+
+# configure service start on boot by copying systemd file
+- name: Copy service file for start-on-boot
+  become: true
+  copy:
+    src: iris-stage.service
+    dest: /etc/systemd/system/iris-stage.service
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+
+# enable service; reboot and verify it is active
+- name: Enable service
+  become: true
+  service:
+    name: iris-stage
+    enabled: true
+  notify: 
+    - reboot
+    - verify service

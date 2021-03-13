@@ -1,0 +1,29 @@
+---
+# stop systemd service
+- name: Stop the iris-stage service
+  become: true
+  service:
+    name: "{{ service_name }}"
+    state: stopped
+
+# remove staging client python daemon package
+- name: Uninstall staging client
+  pip:
+    name: iris-stage
+    state: absent
+
+# remove configuration and secrets
+- name: Remove aws and machine secrets
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    - path: /home/ubuntu/.secrets
+    - path: /home/ubuntu/.aws
+
+# remove systemd iris-stage service file
+- name: Remove service files
+  become: true
+  file:
+    path: /etc/systemd/system/"{{ service_name }}".service
+    state: absent

@@ -6,7 +6,7 @@
     - name: Set system hostname
       become: true
       hostname:
-        name: "{{  }}"
+        name: iris-build
 
     # apt housekeeping
     - name: Update and upgrade apt packages

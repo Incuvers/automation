@@ -5,5 +5,5 @@
 
 - name: verify service
   service:
-    name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
+    name: iris-stage
     state: started
