@@ -8,6 +8,7 @@
 
 # remove staging client python daemon package
 - name: Uninstall staging client
+  become: true
   pip:
     name: iris-stage
     state: absent
@@ -25,5 +26,11 @@
 - name: Remove service files
   become: true
   file:
-    path: /etc/systemd/system/"{{ service_name }}".service
+    path: /etc/systemd/system/iris-stage.service
     state: absent
+
+# reset the system hostname for job identification
+- name: Reset system hostname
+  become: true
+  hostname:
+    name: ubuntu 

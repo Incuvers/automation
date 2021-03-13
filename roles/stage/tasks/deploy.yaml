@@ -1,6 +1,13 @@
 ---
+# set the system hostname for job identification
+- name: Set system hostname
+  become: true
+  hostname:
+    name: "{{ hostname }}"
+
 # install iris staging client from python packaging index
 - name: Install staging client
+  become: true
   pip:
     name: iris-stage
     extra_args: --upgrade
@@ -23,8 +30,8 @@
   copy:
     src: iris-stage.service
     dest: /etc/systemd/system/iris-stage.service
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: root
+    group: root
     mode: 0644
 
 # enable service; reboot and verify it is active
@@ -33,6 +40,12 @@
   service:
     name: iris-stage
     enabled: true
-  notify: 
-    - reboot
-    - verify service
+
+- name: Reboot
+  become: true
+  reboot:
+
+- name: Verify service
+  service:
+    name: iris-stage
+    state: started
