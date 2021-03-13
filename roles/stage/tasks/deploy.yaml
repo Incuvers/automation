@@ -10,7 +10,7 @@
   become: true
   pip:
     name: iris-stage
-    extra_args: --upgrade
+    state: latest
 
 # copy aws and iris runtime certification and configuration files to $HOME
 - name: Copy aws and machine secrets
