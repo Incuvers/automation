@@ -1,0 +1,8 @@
+Host github.com-monitor
+    Hostname github.com
+    IdentityFile ~/.ssh/monitor_deploy_key
+    IdentitiesOnly yes
+Host github.com-icb
+    Hostname github.com
+    IdentityFile ~/.ssh/icb_deploy_key
+    IdentitiesOnly yes

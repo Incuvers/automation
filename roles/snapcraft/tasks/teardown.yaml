@@ -1,0 +1,52 @@
+---
+# remove repository deploy keys for snap builder service
+- name: Upstream monitor deploy key removal
+  script: scripts/remove_key.sh {{ pa_token }} Incuvers monitor monitor_deploy_key
+- name: Upstream icb deploy key removal
+  script: scripts/remove_key.sh {{ pa_token }} Incuvers icb icb_deploy_key
+
+# remove local deploy keys
+- name: Remove local ssh deploy keys
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /home/ubuntu/.ssh/monitor_deploy_key.pub
+    - /home/ubuntu/.ssh/monitor_deploy_key
+    - /home/ubuntu/.ssh/icb_deploy_key.pub
+    - /home/ubuntu/.ssh/icb_deploy_key
+
+# remove the ssh config file
+- name: Remove ssh config
+  become: true
+  file:
+    path: /home/ubuntu/.ssh/config
+    state: absent
+
+- name: Uninstall pip packages
+  become: true
+  pip:
+    state: absent
+    name:
+      - pexpect
+      - boto3
+
+- name: Uninstall apt packages
+  become: true
+  apt:
+    state: absent
+    name:
+      - python3-pip
+
+- name: Uninstall snapcraft
+  become: true
+  snap:
+    name:
+      - snapcraft
+    state: absent
+
+- name: Reset hostname
+  become: true
+  hostname:
+    name: ubuntu

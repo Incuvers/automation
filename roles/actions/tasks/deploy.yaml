@@ -1,0 +1,96 @@
+---
+# load github actions runner checksum based on host architecture
+- include_vars:
+    file: gar-arm.yaml
+  when: ansible_architecture == 'arm64'
+- include_vars:
+    file: gar-x64.yaml
+  when: ansible_architecture == 'x86_64'
+
+# install pip
+- name: Update apt cache and install apt packages
+  become: true
+  apt:
+    name:
+      - python3-pip
+    state: present
+    update_cache: true
+
+# required for ansible run
+- name: Install pip packages for ansible modules
+  become: true
+  pip:
+    name:
+      - pexpect
+
+# create install directory
+- name: Setup github actions directory
+  become: true
+  file:
+    path: "{{ actions_runner }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777
+
+# download and verify github actions runner tar file
+- name: Download github actions runner
+  get_url:
+    url: "{{ gar_repository }}"
+    dest: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+    checksum: "{{ gar_checksum }}"
+
+# extract to actions runner working directory
+- name: Extract github actions runner
+  unarchive:
+    src: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+    dest: "{{ actions_runner }}"
+    remote_src: true
+    mode: 0777
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    creates: "{{ actions_runner }}/README.md"
+
+# get github actions runner token required for configuring a self hosted runner
+- name: Generate Github Actions Runner token
+  uri:
+    url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/registration-token"
+    method: POST
+    headers:
+      Authorization: "token {{ pa_token }}"
+      Accept: application/vnd.github.v3+json
+    status_code: 201
+  register: runner_token
+
+# configure runner using accompanying script and autofill prompts
+- name: Configure actions runner
+  expect:
+    command: >
+      {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
+    responses:
+      (.*)Enter the name of runner:(.*): "{{ runner_name }}"
+      (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): "{{ runner_tag }}"
+      (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
+      (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
+  ignore_errors: true
+
+# install runner as a systemd service
+- name: Install github actions runner
+  become: true
+  command: >
+    chdir="{{ actions_runner }}" ./svc.sh install
+  notify:
+    - reboot
+    - verify service
+
+# run handlers now
+- name: Flush handlers
+  meta: flush_handlers
+
+# cleanup
+- name: Clean github actions install artefacts
+  file:
+    state: absent
+    path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
+
+    

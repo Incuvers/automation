@@ -1,0 +1,47 @@
+---
+# use wait_for to validate github servers can be reached from the target node
+- name: Validate connection to github.com servers
+  wait_for:
+    host: "{{ item }}"
+    port: 80
+    timeout: 30
+    active_connection_states: ESTABLISHED
+  with_items: "{{ github_servers }}"
+
+# halt the github actions runner service
+- name: Stop github actions runner service
+  become: true
+  command: >
+    chdir="{{ actions_runner }}" ./svc.sh stop
+  ignore_errors: true
+
+# uninstall runner
+- name: Uninstall github actions runner
+  become: true
+  command: >
+    chdir="{{ actions_runner }}" ./svc.sh uninstall
+  ignore_errors: true
+
+
+- name: Retrieve Github Actions Runner token
+  uri:
+    url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/remove-token"
+    method: POST
+    headers:
+      Authorization: "token {{ pa_token }}"
+      Accept: application/vnd.github.v3+json
+    status_code: 201
+  register: runner_token
+
+- name: Remove configuration
+  become: false
+  command: >
+    {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
+  ignore_errors: true
+
+- name: Clean Github Actions artefact path
+  become: true
+  file:
+    state: absent
+    path: "{{ actions_runner }}/"
+

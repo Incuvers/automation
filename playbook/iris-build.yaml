@@ -1,0 +1,32 @@
+---
+- name: Setup IRIS Build Server
+- hosts: build
+  pre_tasks:
+    # set the system hostname for job identification
+    - name: Set system hostname
+      become: true
+      hostname:
+        name: "{{  }}"
+
+    # apt housekeeping
+    - name: Update and upgrade apt packages
+      become: true
+      apt: 
+        upgrade: true
+        update_cache: yes
+        cache_valid_time: 3600
+
+    # use wait_for to validate github servers can be reached from the target node
+    - name: Validate connection to github.com servers
+      wait_for:
+        host: "{{ item }}"
+        port: 80
+        timeout: 30
+        active_connection_states: ESTABLISHED
+      with_items: "{{ github_servers }}"
+
+  tasks:
+    include_role:
+      name:
+        - actions
+        - snapcraft

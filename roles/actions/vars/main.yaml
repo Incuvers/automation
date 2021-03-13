@@ -4,8 +4,9 @@ actions_runner: /opt/actions-runner
 gar_work_folder: work
 download_dir: /tmp
 
-# github actions runner vars
-gar_repository: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-{{ arch }}-{{ gar_version }}.tar.gz"
+# action runner configurables
+runner_name: iris-deploy
+runner_tag: docker
 
 # github server vars
 github_base_path: "https://api.github.com"
