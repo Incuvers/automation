@@ -9,7 +9,7 @@
 - name: Copy firmware config files
   become: true
   copy:
-    src: monitor/"{{ item }}"
+    src: "monitor/{{ item }}"
     dest: "/boot/firmwar/{{ item }}"
     owner: root
     group: root
