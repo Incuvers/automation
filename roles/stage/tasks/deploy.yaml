@@ -10,7 +10,7 @@
   become: true
   copy:
     src: "monitor/{{ item }}"
-    dest: "/boot/firmwar/{{ item }}"
+    dest: "/boot/firmware/{{ item }}"
     owner: root
     group: root
     mode: 0755
