@@ -1,0 +1,16 @@
+---
+# set the system hostname for job identification
+- name: Copy firmware config files
+  become: true
+  copy:
+    src: "monitor/{{ item }}"
+    dest: "/boot/firmware/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - cmdline.txt
+    - config.txt
+    - syscfg.txt
+    - uboot.env
+    - usercfg.txt
