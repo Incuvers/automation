@@ -20,6 +20,7 @@
         name:
           - pexpect
           - boto3
+          - PyYAML
 
     # snapcraft install is a seperate task due to its strict channel and confinement parameters
     - name: Install snapcraft
