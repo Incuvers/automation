@@ -81,16 +81,4 @@
     chdir="{{ actions_runner }}" ./svc.sh install
   notify:
     - reboot
-    - verify service
-
-# run handlers now
-- name: Flush handlers
-  meta: flush_handlers
-
-# cleanup
-- name: Clean github actions install artefacts
-  file:
-    state: absent
-    path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
-
-    
+    - verify
