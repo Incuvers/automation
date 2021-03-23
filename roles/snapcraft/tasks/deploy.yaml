@@ -1,4 +1,10 @@
 ---
+# set the system hostname for job identification
+- name: Set system hostname
+  become: true
+  hostname:
+    name: iris-build
+
 # update apt cache and install
 - name: Update apt cache and install apt packages
   become: true
@@ -9,19 +15,20 @@
     update_cache: true
 
 # install required pip packages (pexpect for ansible)
-- name: Install pip packages for ansible modules
+- name: Install pip packages
   become: true
   pip:
     name:
       - pexpect
       - boto3
+      - PyYAML
 
 # snapcraft install is a seperate task due to its strict channel and confinement parameters
 - name: Install snapcraft
   become: true
   snap:
     name:
-      - snapcraft
+      - snapcraft 
     classic: true
     channel: candidate
 
@@ -92,16 +99,6 @@
     name: "{{ ansible_user }}"
     groups: lxd
     append: true
-
-# use wait_for to validate github servers can be reached from the target node
-- name: Validate connection to github.com servers
-  wait_for:
-    host: "{{ item }}"
-    port: 80
-    timeout: 30
-    active_connection_states: ESTABLISHED
-  with_items: "{{ github_servers }}"
-
 
 # generate the deploy key creation payloads and post to gits rest api
 - name: Add deploy keys to Incuvers:monitor and Incuvers:icb repositories
