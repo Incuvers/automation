@@ -16,7 +16,7 @@
 - name: Copy aws and machine secrets
   copy:
     src: "{{ item }}"
-    dest: /home/ubuntu/
+    dest: "{{ credentials_dir }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0664

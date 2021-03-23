@@ -6,6 +6,13 @@
     name: "{{ service_name }}"
     state: stopped
 
+# disable the systemd process
+- name: Disable service
+  become: true
+  service:
+    name: iris-stage
+    enabled: false
+
 # remove staging client python daemon package
 - name: Uninstall staging client
   become: true
@@ -33,4 +40,4 @@
 - name: Reset system hostname
   become: true
   hostname:
-    name: ubuntu 
+    name: "{{ ansible_user }}"

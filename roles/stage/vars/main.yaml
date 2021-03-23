@@ -1,3 +1,4 @@
 ---
 # service vars
 service_name: iris-stage
+credentials_dir: /home/ubuntu/
