@@ -2,12 +2,6 @@
 - name: Setup IRIS Build Server
 - hosts: build
   pre_tasks:
-    # set the system hostname for job identification
-    - name: Set system hostname
-      become: true
-      hostname:
-        name: iris-build
-
     # apt housekeeping
     - name: Update and upgrade apt packages
       become: true
@@ -28,5 +22,13 @@
   tasks:
     include_role:
       name:
+        - common
         - actions
         - snapcraft
+
+  post_tasks:
+    # cleanup
+    - name: Clean github actions install artefacts
+      file:
+        state: absent
+        path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
