@@ -13,12 +13,6 @@
         update_cache: true
         cache_valid_time: 3600
 
-    # install iris staging client from python packaging index
-    - name: Install python3-pip
-      become: true
-      apt:
-        name: python3-pip
-
     # upgrade pip
     - name: Upgrade pip module
       pip:
@@ -28,4 +22,6 @@
   tasks:
     - name: Execute stage role
       include_role:
-        name: stage
+        name:
+         - common
+         - stage
