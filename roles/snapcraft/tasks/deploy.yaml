@@ -28,7 +28,7 @@
   become: true
   snap:
     name:
-      - snapcraft 
+      - snapcraft
     classic: true
     channel: candidate
 
@@ -87,7 +87,7 @@
   command: lxd init --auto
 
 # ensure lxd group exists
-- name: Ensure 'lxd' group is present 
+- name: Ensure 'lxd' group is present
   group:
     name: lxd
     state: present
@@ -121,4 +121,4 @@
       body:
         title: "snap build server"
         key: "{{ deploy_keys['results'][1]['content'] | b64decode }}"
-        read_only: tru
+        read_only: true

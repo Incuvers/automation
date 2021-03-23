@@ -44,4 +44,3 @@
   file:
     state: absent
     path: "{{ actions_runner }}/"
-

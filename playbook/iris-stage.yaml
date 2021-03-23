@@ -23,5 +23,5 @@
     - name: Execute stage role
       include_role:
         name:
-         - common
-         - stage
+          - common
+          - stage

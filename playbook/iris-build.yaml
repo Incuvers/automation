@@ -5,9 +5,9 @@
     # apt housekeeping
     - name: Update and upgrade apt packages
       become: true
-      apt: 
+      apt:
         upgrade: true
-        update_cache: yes
+        update_cache: true
         cache_valid_time: 3600
 
     # use wait_for to validate github servers can be reached from the target node
