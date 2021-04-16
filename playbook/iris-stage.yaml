@@ -13,6 +13,11 @@
         update_cache: true
         cache_valid_time: 3600
 
+    - name: Install pip
+      become: true
+      apt:
+        name: python3-pip
+
     # upgrade pip
     - name: Upgrade pip module
       pip:
@@ -22,6 +27,4 @@
   tasks:
     - name: Execute stage role
       include_role:
-        name:
-          - common
-          - stage
+        name: stage
