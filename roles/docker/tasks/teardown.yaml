@@ -3,7 +3,7 @@
 - name: Remove Docker Repository
   become: true
   apt_repository:
-    repo: deb [arch={{  }}] https://download.docker.com/linux/ubuntu focal stable
+    repo: "deb [arch={{ host_arch }}] https://download.docker.com/linux/ubuntu focal stable"
     state: absent
 
 - name: Uninstall apt packages
@@ -17,8 +17,3 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-
-- name: Reset hostname
-  become: true
-  hostname:
-    name: ubuntu
