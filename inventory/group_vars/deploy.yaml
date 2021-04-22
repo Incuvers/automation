@@ -1,4 +1,4 @@
 ---
 # action runner configurables
 runner_name: iris-deploy
-runner_tag: docker
+runner_tag: deploy 

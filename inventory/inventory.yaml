@@ -1,4 +1,18 @@
 ---
+# Docker image build server
+docker:
+  hosts:
+    iris-docker:
+      ansible_host: 192.168.2.53
+      ansible_user: ubuntu
+
+# CI build server
+ci:
+  hosts:
+    iris-ci:
+      ansible_host: 192.168.2.54
+      ansible_user: ubuntu
+
 # IRIS snap build server
 build:
   hosts:
@@ -10,7 +24,7 @@ build:
 stage:
   hosts:
     iris-stage:
-      ansible_host: 192.168.2.41
+      ansible_host: 192.168.2.68
       ansible_user: ubuntu
       hostname: iris-stage
 

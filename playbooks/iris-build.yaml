@@ -1,6 +1,6 @@
 ---
 - name: Setup IRIS Build Server
-- hosts: build
+  hosts: build
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages
@@ -19,12 +19,10 @@
         active_connection_states: ESTABLISHED
       with_items: "{{ github_servers }}"
 
-  tasks:
-    include_role:
-      name:
-        - common
-        - actions
-        - snapcraft
+  roles:
+    - common
+    - actions
+    - snapcraft
 
   post_tasks:
     # cleanup

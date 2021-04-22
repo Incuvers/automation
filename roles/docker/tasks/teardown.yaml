@@ -1,0 +1,24 @@
+---
+# remove docker on target architecture (id'd by main.yaml)
+- name: Remove Docker Repository
+  become: true
+  apt_repository:
+    repo: deb [arch={{  }}] https://download.docker.com/linux/ubuntu focal stable
+    state: absent
+
+- name: Uninstall apt packages
+  become: true
+  apt:
+    state: absent
+    autoremove: true
+    purge: true
+    name:
+      - python3-pip
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: Reset hostname
+  become: true
+  hostname:
+    name: ubuntu

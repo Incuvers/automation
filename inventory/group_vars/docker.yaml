@@ -1,0 +1,4 @@
+---
+# action runner configurables
+runner_name: iris-img 
+runner_tag: docker 

@@ -24,7 +24,5 @@
         name: pip
         state: latest
 
-  tasks:
-    - name: Execute stage role
-      include_role:
-        name: stage
+  roles:
+    - stage
