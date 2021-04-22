@@ -1,4 +1,10 @@
 ---
+github_servers:
+  - github.com
+  - api.github.com
+  - codeload.github.com
+download_dir: /tmp
+
 # system working folders
 actions_runner: /opt/actions-runner
 gar_work_folder: work

@@ -1,4 +1,13 @@
 ---
+# use wait_for to validate github servers can be reached from the target node
+- name: Validate connection to github.com servers
+  wait_for:
+    host: "{{ item }}"
+    port: 80
+    timeout: 30
+    active_connection_states: ESTABLISHED
+  with_items: "{{ github_servers }}"
+
 - include_tasks: deploy.yaml
   when: not teardown
 
