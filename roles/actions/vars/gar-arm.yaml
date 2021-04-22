@@ -1,4 +1,4 @@
 ---
 gar_version: 2.276.1
-gar_repository: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-x64-{{ gar_version }}.tar.gz"
+gar_repository: "https://github.com/actions/runner/releases/download/v{{ gar_version }}/actions-runner-linux-arm64-{{ gar_version }}.tar.gz"
 gar_checksum: sha256:77ba7bfe67f266df70cd040fbea6d433d1a063596056160cd5e3c439ac47fd70
