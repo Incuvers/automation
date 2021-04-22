@@ -1,10 +1,4 @@
 ---
-github_servers:
-  - github.com
-  - api.github.com
-  - codeload.github.com
-download_dir: /tmp
-
 # action runner configurables
 runner_name: iris-build
 runner_tag: snap
