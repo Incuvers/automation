@@ -19,9 +19,9 @@
         active_connection_states: ESTABLISHED
       with_items: "{{ github_servers }}"
 
-  roles: 
+  roles:
     - actions
-    - docker 
+    - docker
 
   post_tasks:
     # cleanup

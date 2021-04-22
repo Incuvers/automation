@@ -4,7 +4,7 @@ docker:
   hosts:
     iris-docker:
       ansible_host: 192.168.2.53
-      ansible_user: ubuntu
+      ansible_user: incuvers-tp
 
 # CI build server
 ci:

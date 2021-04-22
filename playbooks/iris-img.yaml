@@ -1,11 +1,10 @@
-
 ---
 # DOCKER IMAGE BUILD SERVER
 # -------------------------
 # Builds monitor environment and pushes to docker hub
 
 - name: Setup Docker Image Builder
-  hosts: docker 
+  hosts: docker
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages
@@ -27,7 +26,7 @@
   roles:
     - actions
     - docker
-  
+
   post_tasks:
     # cleanup
     - name: Clean github actions install artefacts

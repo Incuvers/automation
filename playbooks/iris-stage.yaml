@@ -1,8 +1,6 @@
 ---
 - name: Setup IRIS Staging Client
   hosts: stage
-  vars:
-    teardown: false
 
   pre_tasks:
     # apt housekeeping
