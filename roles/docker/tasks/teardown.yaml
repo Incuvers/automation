@@ -10,6 +10,7 @@
     repo: "deb [arch={{ host_arch }}] https://download.docker.com/linux/ubuntu focal stable"
     state: absent
 
+# remove docker related packages
 - name: Uninstall apt packages
   become: true
   apt:
