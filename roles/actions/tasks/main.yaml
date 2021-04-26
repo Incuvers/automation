@@ -17,5 +17,3 @@
   when: not teardown
 - include_tasks: teardown.yaml
   when: teardown
-
-post_tasks:
