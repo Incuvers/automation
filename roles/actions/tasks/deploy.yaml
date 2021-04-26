@@ -72,7 +72,7 @@
       (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): "{{ runner_tag }}"
       (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
       (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
-  ignore_errors: true
+  when: "'service_name' not in services"
 
 # install runner as a systemd service
 - name: Install github actions runner
@@ -82,6 +82,7 @@
   notify:
     - reboot
     - verify
+  when: "'service_name' not in services"
 
 # cleanup
 - name: Clean github actions install artefacts
