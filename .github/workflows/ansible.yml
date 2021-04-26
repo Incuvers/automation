@@ -18,6 +18,10 @@ jobs:
       - name: Install test dependencies.
         run: sudo apt install ansible -y
 
+      - name: Inject dummy vault key for ansible-playbook syntax checking
+        run: |
+          echo "ci-password" > ./secrets/vault.key"
+
       - name: Run ansible-playbook linter.
         run: |
-          ansible-playbook playbooks/*.yaml --syntax-check
+          ansible-playbook playbooks/*.yaml --syntax-check 
