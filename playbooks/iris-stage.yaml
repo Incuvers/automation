@@ -1,0 +1,26 @@
+---
+- name: Setup IRIS Staging Client
+  hosts: stage
+
+  pre_tasks:
+    # apt housekeeping
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: dist
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install pip
+      become: true
+      apt:
+        name: python3-pip
+
+    # upgrade pip
+    - name: Upgrade pip module
+      pip:
+        name: pip
+        state: latest
+
+  roles:
+    - stage

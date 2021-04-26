@@ -1,0 +1,4 @@
+---
+# action runner configurables
+runner_name: iris-build
+runner_tag: snap

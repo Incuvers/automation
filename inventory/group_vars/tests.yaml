@@ -1,0 +1,4 @@
+---
+# action runner configurables
+runner_name: iris-tests
+runner_tag: tests

@@ -1,0 +1,16 @@
+---
+# set {{ host_arch }} var from host architecture into format accepted by apt repo
+- name: Include arm64 variable definitions
+  include_vars:
+    file: arm64.yaml
+  when: (ansible_architecture == 'arm64') or (ansible_architecture == 'aarch64')
+
+- name: Include amd64 variable definitions
+  include_vars:
+    file: amd64.yaml
+  when: ansible_architecture == 'x86_64'
+
+- include_tasks: deploy.yaml
+  when: not teardown
+- include_tasks: teardown.yaml
+  when: teardown

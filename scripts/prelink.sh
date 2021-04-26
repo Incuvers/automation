@@ -4,7 +4,13 @@
 # ==========
 # Manual ssh authorization configuration with a target system
 
-source .env
+source scripts/.env
+
+# prelink config
+KEY_PATH="$HOME/.ssh/id_rsa.pub"
+PRELINK_USER="ubuntu"
+PRELINK_IP=192.168.2.68
+PRELINK_KEY=$(< "$KEY_PATH")
 
 trap 'handler $?' ERR
 

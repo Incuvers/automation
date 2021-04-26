@@ -1,5 +1,6 @@
 ---
 extends: default
+ignore: vault.yaml
 rules:
   line-length:
     max: 200

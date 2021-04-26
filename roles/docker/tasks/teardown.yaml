@@ -1,0 +1,23 @@
+---
+# name architecture
+- debug:
+    msg: "Removing docker on {{ host_arch }}"
+
+# remove docker on target architecture (id'd by main.yaml)
+- name: Remove Docker Repository
+  become: true
+  apt_repository:
+    repo: "deb [arch={{ host_arch }}] https://download.docker.com/linux/ubuntu focal stable"
+    state: absent
+
+# remove docker related packages
+- name: Uninstall apt packages
+  become: true
+  apt:
+    state: absent
+    autoremove: true
+    purge: true
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io

@@ -1,0 +1,15 @@
+---
+- name: Setup Tests CI Server
+  hosts: iris-tests
+  pre_tasks:
+    # apt housekeeping
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: true
+        update_cache: true
+        cache_valid_time: 3600
+
+  roles:
+    - actions
+    - docker
