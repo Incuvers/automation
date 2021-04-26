@@ -1,4 +1,0 @@
----
-# action runner configurables
-runner_name: iris-ci
-runner_tag: ci
