@@ -29,12 +29,14 @@
     repo: "deb [arch={{ host_arch }}] https://download.docker.com/linux/ubuntu focal stable"
     state: present
 
+# ignore post install error for docker
 - name: Install docker-ce
   become: true
   apt:
     name:
       - docker-ce
     state: latest
+  ignore_errors: true
 
 - name: Create docker group
   group:
