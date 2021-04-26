@@ -20,8 +20,8 @@ jobs:
 
       - name: Inject dummy vault key for ansible-playbook syntax checking
         run: |
-          echo "ci-password" > ./secrets/vault.key"
+          echo "ci-password" > ./secrets/vault.key
 
       - name: Run ansible-playbook linter.
         run: |
-          ansible-playbook playbooks/*.yaml --syntax-check 
+          ansible-playbook playbooks/*.yaml --syntax-check
