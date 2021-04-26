@@ -1,4 +1,8 @@
 ---
+# name architecture
+- debug:
+    msg: "Removing docker on {{ host_arch }}"
+
 # remove docker on target architecture (id'd by main.yaml)
 - name: Remove Docker Repository
   become: true
@@ -13,7 +17,6 @@
     autoremove: true
     purge: true
     name:
-      - python3-pip
       - docker-ce
       - docker-ce-cli
       - containerd.io
