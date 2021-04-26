@@ -1,7 +1,5 @@
 #!/bin/bash
-OKG="\033[92m"
-OKB="\033[94m"
-NC="\033[0m"
+source scripts/.env
 
 printf "%b" "${OKB}Boot config setup${NC}\n"
 # copy usercfg to /boot/firmware for screen orientation (portait mode on 1920x1080 monitors)

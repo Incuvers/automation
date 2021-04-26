@@ -2,6 +2,8 @@
 
 set -e
 
+source scripts/.env
+
 usbboot(){
     cd usbboot || exit 1
     echo "Insert compute module into master SO-DIMM"
