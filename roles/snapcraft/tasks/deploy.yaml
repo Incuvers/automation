@@ -106,7 +106,7 @@
     url: "{{ item.url }}"
     method: POST
     headers:
-      Authorization: "token {{ pa_token }}"
+      Authorization: "token {{ vault_pa_token }}"
       Accept: application/vnd.github.v3+json
     body: "{{ item.body }}"
     body_format: json

@@ -1,9 +1,9 @@
 ---
 # remove repository deploy keys for snap builder service
 - name: Upstream monitor deploy key removal
-  script: scripts/remove_key.sh {{ pa_token }} Incuvers monitor monitor_deploy_key
+  script: scripts/remove_key.sh {{ vault_pa_token }} Incuvers monitor monitor_deploy_key
 - name: Upstream icb deploy key removal
-  script: scripts/remove_key.sh {{ pa_token }} Incuvers icb icb_deploy_key
+  script: scripts/remove_key.sh {{ vault_pa_token }} Incuvers icb icb_deploy_key
 
 # remove local deploy keys
 - name: Remove local ssh deploy keys

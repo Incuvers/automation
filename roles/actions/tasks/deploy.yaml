@@ -57,7 +57,7 @@
     url: "{{ github_base_path }}/orgs/{{ organization }}/actions/runners/registration-token"
     method: POST
     headers:
-      Authorization: "token {{ pa_token }}"
+      Authorization: "token {{ vault_pa_token }}"
       Accept: application/vnd.github.v3+json
     status_code: 201
   register: runner_token
