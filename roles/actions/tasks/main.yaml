@@ -1,4 +1,8 @@
 ---
+# include role secrets
+- include_vars:
+    files: vault.yaml
+
 # use wait_for to validate github servers can be reached from the target node
 - name: Validate connection to github.com servers
   wait_for:
@@ -8,8 +12,8 @@
     active_connection_states: ESTABLISHED
   with_items: "{{ github_servers }}"
 
+# build or destroy task branch
 - include_tasks: deploy.yaml
   when: not teardown
-
 - include_tasks: teardown.yaml
   when: teardown
