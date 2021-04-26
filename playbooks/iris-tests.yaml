@@ -1,6 +1,6 @@
 ---
-- name: Setup CI Server
-  hosts: ci
+- name: Setup Tests CI Server
+  hosts: iris-tests 
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages
@@ -13,10 +13,3 @@
   roles:
     - actions
     - docker
-
-  post_tasks:
-    # cleanup
-    - name: Clean github actions install artefacts
-      file:
-        state: absent
-        path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
