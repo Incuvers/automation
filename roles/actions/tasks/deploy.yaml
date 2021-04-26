@@ -82,3 +82,9 @@
   notify:
     - reboot
     - verify
+
+# cleanup
+- name: Clean github actions install artefacts
+  file:
+    state: absent
+    path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"

@@ -17,10 +17,3 @@
   roles:
     - actions
     - docker
-
-  post_tasks:
-    # cleanup
-    - name: Clean github actions install artefacts
-      file:
-        state: absent
-        path: "{{ download_dir }}/gar-{{ gar_version }}.tgz"
