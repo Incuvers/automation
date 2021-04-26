@@ -1,4 +1,7 @@
 ---
+- name: Populate service facts
+  service_facts:
+
 # use wait_for to validate github servers can be reached from the target node
 - name: Validate connection to github.com servers
   wait_for:
@@ -13,15 +16,14 @@
   become: true
   command: >
     chdir="{{ actions_runner }}" ./svc.sh stop
-  ignore_errors: true
+  when: "service_name in services"
 
 # uninstall runner
 - name: Uninstall github actions runner
   become: true
   command: >
     chdir="{{ actions_runner }}" ./svc.sh uninstall
-  ignore_errors: true
-
+  when: "service_name in services"
 
 - name: Retrieve Github Actions Runner token
   uri:
@@ -37,7 +39,6 @@
   become: false
   command: >
     {{ actions_runner }}/config.sh remove --url {{ organization_url }} --token {{ runner_token.json.token }}
-  ignore_errors: true
 
 - name: Clean Github Actions artefact path
   become: true
