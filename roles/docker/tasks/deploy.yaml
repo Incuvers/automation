@@ -1,4 +1,8 @@
 ---
+# name architecture
+- debug:
+    msg: "Installing docker on {{ host_arch }}"
+
 # install docker on target architecture (id'd by main.yaml)
 - name: Update apt cache and install apt packages
   become: true
