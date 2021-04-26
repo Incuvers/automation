@@ -37,7 +37,7 @@ sudo apt install ansible
 ```
 
 ### Environment and Inventory
-Create a copy of the [`example.env`](/example.env) and [`example.inventory.yaml`](/inventory/example.inventory.yaml) files and remove the example prefix from each so they appear as `.env` and `inventory.yaml` respectively. These files store your host configuration for your deployment.
+Create a copy of the [`example.inventory.yaml`](/inventory/example.inventory.yaml) files and remove the `example.` prefix from it. This file describes your host configuration for your deployment.
 
 ### Ansible Vault
 Some of the automation deployments, such as github actions servers require secrets. These secrets are encrypted with AES using ansible vault and are version controlled. Ansible vault will decrypt the neccessary secrets for a given action at playbook runtime provided you have the ansible vault password file. This means that instead of syncing serveral different key files with everyone only the ansible vault password file is required to get access to all the key files. Contact christian@incuvers.com for the vault key file.
