@@ -49,3 +49,7 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: true
+
+- name: reboot
+  become: true
+  reboot:
