@@ -1,10 +1,10 @@
 ---
 # load github actions runner checksum based on host architecture
 - include_vars:
-    file: gar-arm.yaml
+    file: arm.yaml
   when: (ansible_architecture == 'arm64') or (ansible_architecture == 'aarch64')
 - include_vars:
-    file: gar-x64.yaml
+    file: x64.yaml
   when: ansible_architecture == 'x86_64'
 
 # install pip
