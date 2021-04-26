@@ -3,7 +3,7 @@
   become: true
   reboot:
 
-- name: verify service
+- name: verify
   service:
     name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
     state: started
