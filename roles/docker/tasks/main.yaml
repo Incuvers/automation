@@ -12,6 +12,5 @@
 
 - include_tasks: deploy.yaml
   when: not teardown
-
 - include_tasks: teardown.yaml
   when: teardown
