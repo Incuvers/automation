@@ -1,7 +1,7 @@
 ---
 # include role secrets
 - include_vars:
-    files: vault.yaml
+    file: vault.yaml
 
 # build or destroy task branch
 - include_tasks: deploy.yaml

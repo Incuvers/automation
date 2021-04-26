@@ -1,7 +1,7 @@
 ---
 # include role secrets
 - include_vars:
-    files: vault.yaml
+    file: vault.yaml
 
 # use wait_for to validate github servers can be reached from the target node
 - name: Validate connection to github.com servers
@@ -17,3 +17,5 @@
   when: not teardown
 - include_tasks: teardown.yaml
   when: teardown
+
+post_tasks:
