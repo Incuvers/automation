@@ -9,7 +9,6 @@
 
 - name: Populate service facts
   service_facts:
-  when: "'service_name' in services"
 
 # install pip
 - name: Install pip
