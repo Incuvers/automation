@@ -1,6 +1,6 @@
 ---
 - name: Setup Tests CI Server
-  hosts: gar 
+  hosts: gar
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages
