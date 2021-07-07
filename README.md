@@ -1,5 +1,5 @@
 # Incuvers Automation
-[![Actions Status](https://github.com/Incuvers/microk3s/workflows/yamllint/badge.svg)](https://github.com/Incuvers/microk3s/actions?query=workflow%3Ayamllint) [![Actions Status](https://github.com/Incuvers/microk3s/workflows/ansible/badge.svg)](https://github.com/Incuvers/microk3s/actions?query=workflow%ansible) [![Actions Status](https://github.com/Incuvers/microk3s/workflows/shellcheck/badge.svg)](https://github.com/Incuvers/microk3s/actions?query=workflow%3Ashellcheck)
+[![ci](https://github.com/Incuvers/automation/actions/workflows/ci.yml/badge.svg)](https://github.com/Incuvers/automation/actions/workflows/ci.yml)
 
 ![img](/docs/img/Incuvers-black.png)
 
