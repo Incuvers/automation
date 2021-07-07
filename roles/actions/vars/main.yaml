@@ -13,4 +13,4 @@ gar_work_folder: work
 github_base_path: "https://api.github.com"
 organization: Incuvers
 organization_url: "https://github.com/{{ organization }}"
-service_name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
+service_name: "actions.runner.{{ organization }}.{{ ansible_host }}.service"
