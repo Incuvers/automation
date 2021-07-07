@@ -5,5 +5,5 @@
 
 - name: verify
   service:
-    name: "actions.runner.{{ organization }}.{{ runner_name }}.service"
+    name: "actions.runner.{{ organization }}.{{ ansible_host }}.service"
     state: started
