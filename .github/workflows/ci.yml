@@ -1,0 +1,46 @@
+---
+name: ci 
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install test dependencies.
+        run: python3 -m pip install yamllint
+      - name: Run yamllint.
+        run: yamllint .
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+      - name: Install test dependencies.
+        run: sudo apt install shellcheck -y
+      - name: Run shellcheck linter.
+        run: |
+          shellcheck -x --exclude SC2029 scripts/*
+  ansible-lint:
+    name: ansible-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+      - name: Install test dependencies.
+        run: sudo apt install ansible -y
+      - name: Run ansible-playbook linter.
+        run: |
+          echo "ci-password" > ./secrets/vault.key
+          ansible-playbook playbooks/*.yaml --syntax-check
