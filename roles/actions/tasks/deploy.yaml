@@ -71,7 +71,7 @@
     command: >
       {{ actions_runner }}/config.sh --url {{ organization_url }} --token {{ runner_token.json.token }}
     responses:
-      (.*)Enter the name of runner:(.*): "{{ runner_name }}"
+      (.*)Enter the name of runner:(.*): "{{ ansible_host }}"
       (.*)Enter any additional labels \(ex. label-1,label-2\):(.*): "{{ runner_tag }}"
       (.*)Enter name of work folder:(.*): "{{ gar_work_folder }}"
       (.*)Would you like to replace the existing runner? (Y/N)(.*): ""
