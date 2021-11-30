@@ -6,12 +6,44 @@
 
 source scripts/.env
 
+PRELINK_USER=""
+PRELINK_IP=""
+
+while getopts ":hu:a:" opt; do
+    case "$opt" in
+        h )
+            echo "Usage:"
+            echo "      prelink.sh -h                       Display this message"
+            echo "      prelink -u ubuntu -a 10.1.52.98     Setup ssh link for user ubuntu on host 10.1.52.98"
+            exit 0;
+            ;;
+        u )
+            PRELINK_USER="$OPTARG"
+            ;;
+        a )
+            PRELINK_IP="$OPTARG"
+            ;;
+        \? )
+            echo "Invalid option: $OPTARG" 1>&2
+            exit 1;
+            ;;
+        : )
+            echo "Invalid option: $OPTARG requires an argument" 1>&2
+            exit 1;
+            ;;
+    esac
+done
+
+shift $((OPTIND -1))
+
+if [ -z "$PRELINK_USER" ] || [ -z "$PRELINK_IP" ]; then
+        echo 'Missing -u or -a' >&2
+        exit 1
+fi
+
 # prelink config
 KEY_PATH="$HOME/.ssh/id_rsa.pub"
-PRELINK_USER="ubuntu"
-PRELINK_IP=192.168.2.68
 PRELINK_KEY=$(< "$KEY_PATH")
-
 trap 'handler $?' ERR
 
 handler() {
