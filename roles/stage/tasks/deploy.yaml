@@ -41,6 +41,12 @@
     dest: /usr/local/lib/python3.8/dist-packages/daemon.py.cache
     state: hard
 
+- name: Remove daemon files
+  become: true
+  file:
+    path: /usr/local/lib/python3.8/dist-packages/daemon.py
+    state: absent
+
 - name: Configure symlink to daemon module
   become: true
   file:
