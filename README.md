@@ -39,6 +39,13 @@ sudo apt install ansible
 ### Environment and Inventory
 Create a copy of the [`example.inventory.yaml`](/inventory/example.inventory.yaml) files and remove the `example.` prefix from it. This file describes your host configuration for your deployment.
 
+Before executing a playbook, verify what its variables are set as in in `inventory/group_vars/<group>.yaml`. For exmaple, the file `inventory/group_vars/stage.yaml` defines `teardown` for the staging server.
+
+Once done, fire off the playbook using its path. For example, the `iris-stage` playbook:
+```bash
+ansible-playbook playbooks/iris-stage.yaml
+```
+
 ### Ansible Vault
 Some of the automation deployments, such as github actions servers require secrets. These secrets are encrypted with AES using ansible vault and are version controlled. Ansible vault will decrypt the neccessary secrets for a given action at playbook runtime provided you have the ansible vault password file. This means that instead of syncing serveral different key files with everyone only the ansible vault password file is required to get access to all the key files. Contact christian@incuvers.com for the vault key file.
 
