@@ -13,6 +13,18 @@
     name: iris-stage
     enabled: false
 
+- name: Remove symlink to daemon module
+  become: true
+  file:
+    src: /usr/local/lib/python3.8/dist-packages/daemon/daemon.py
+    state: absent
+
+- name: Revert builtin daemon.py
+  become: true
+  file:
+    src: /usr/local/lib/python3.8/dist-packages/daemon.py.cache
+    dest: /usr/local/lib/python3.8/dist-packages/daemon.py
+
 # remove staging client python daemon package
 - name: Uninstall staging client
   become: true

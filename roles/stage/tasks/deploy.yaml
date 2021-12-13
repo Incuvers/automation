@@ -34,6 +34,19 @@
     group: root
     mode: 0644
 
+- name: Cache builtin daemon.py
+  become: true
+  file:
+    src: /usr/local/lib/python3.8/dist-packages/daemon.py
+    dest: /usr/local/lib/python3.8/dist-packages/daemon.py.cache
+
+- name: Configure symlink to daemon module
+  become: true
+  file:
+    src: /usr/local/lib/python3.8/dist-packages/daemon/daemon.py
+    dest: /usr/local/lib/python3.8/dist-packages/daemon.py
+    state: link
+
 # enable service; reboot and verify it is active
 - name: Enable service
   become: true
