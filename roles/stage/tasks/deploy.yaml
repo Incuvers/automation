@@ -39,6 +39,7 @@
   file:
     src: /usr/local/lib/python3.8/dist-packages/daemon.py
     dest: /usr/local/lib/python3.8/dist-packages/daemon.py.cache
+    state: hard
 
 - name: Configure symlink to daemon module
   become: true

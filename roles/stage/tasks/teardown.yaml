@@ -24,6 +24,7 @@
   file:
     src: /usr/local/lib/python3.8/dist-packages/daemon.py.cache
     dest: /usr/local/lib/python3.8/dist-packages/daemon.py
+    state: hard
 
 # remove staging client python daemon package
 - name: Uninstall staging client
