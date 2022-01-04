@@ -2,3 +2,4 @@
 # action runner configurables
 runner_name: iris-deploy
 runner_tag: deploy
+teardown: false
