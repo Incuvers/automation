@@ -1,6 +1,6 @@
 ---
 - name: Setup Tests CI Server
-  hosts: ci 
+  hosts: ci
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages

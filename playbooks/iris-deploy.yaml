@@ -4,7 +4,7 @@
 # pushes production snaps to snap store
 
 - name: Setup Deployment Server
-  hosts: deploy 
+  hosts: deploy
   pre_tasks:
     # apt housekeeping
     - name: Update and upgrade apt packages
